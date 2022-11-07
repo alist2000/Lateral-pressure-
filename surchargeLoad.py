@@ -2,6 +2,7 @@ import numpy as np
 import scipy.integrate as spi
 import matplotlib.pyplot as plt
 from math import *
+from time import sleep
 
 
 class surcharge:
@@ -49,6 +50,8 @@ class surcharge:
         plt.fill(sigma_h_array, depth_array, color="lightsteelblue")
         plt.arrow(x=max(sigma_h_array), y=centroid, dx=-max(sigma_h_array) + 0.7, dy=0, width=.15,
                   facecolor='firebrick', edgecolor='none')
+        del sigma_h[-1]
+        del depth_list[-1]
         plt.show()
 
     # point load
@@ -62,6 +65,7 @@ class surcharge:
             teta = teta * np.pi / 180
 
             m = l / h
+            print(m)
             i = 0
             for depth in depth_list:
                 if m <= 0.4:
@@ -79,6 +83,7 @@ class surcharge:
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
             self.plotter(lateral_pressure, centroid)
+            sigma_h.clear()
             return lateral_pressure, centroid, self.error
         else:
             return self.error
@@ -118,12 +123,15 @@ class surcharge:
             alpha = []
             beta = []
             for depth in depth_list:
-                alpha.append(atan((l1 + a / 2) / depth))  # radian
-                teta1 = atan(l1 / depth)
-                teta2 = atan(l2 / depth)
-                beta.append(teta2 - teta1)
-                sigma_h.append(2 * q * (beta[i] - sin(beta[i]) * cos(2 * alpha[i])) / np.pi)
-                i += 1
+                try:
+                    alpha.append(atan((l1 + a / 2) / depth))  # radian
+                    teta1 = atan(l1 / depth)
+                    teta2 = atan(l2 / depth)
+                    beta.append(teta2 - teta1)
+                    sigma_h.append(2 * q * (beta[i] - sin(beta[i]) * cos(2 * alpha[i])) / np.pi)
+                    i += 1
+                except:
+                    sigma_h.append(0)
             depth_array = np.array(depth_list)
             sigma_h_array = np.array(sigma_h)
             print(sigma_h_array)
@@ -135,6 +143,12 @@ class surcharge:
             return self.error
 
 
-print(surcharge(h=10, delta_h=0.8).point_load(q=16000, l=6, teta=66.8))
+example = surcharge(h=10, delta_h=2)
+print(example.point_load(q=16000, l=6, teta=66.8))
+print(example.point_load(q=16000, l=6, teta=0))
+print(example.point_load(q=4000, l=6, teta=66.8))
+print(example.point_load(q=16000, l=12, teta=49.4))
+print(example.point_load(q=16000, l=12, teta=0))
+print(example.point_load(q=4000, l=12, teta=49.4))
 
 # def line_load(q, l, h, delta_h:0.1):
