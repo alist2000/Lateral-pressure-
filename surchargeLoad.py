@@ -114,7 +114,8 @@ class surcharge:
         else:
             return self.error
 
-    def strip_load(self, q, l1, l2, a):
+    def strip_load(self, q, l1, l2):
+        a = l2 - l1
         if self.error[0] == "No error":
             sigma_h = self.sigma_h
             depth_list = self.depth_list
