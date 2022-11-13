@@ -32,7 +32,7 @@ class surcharge:
         self.n = n
         self.depth_list = depth_list
 
-    # plotter
+    # plotter for every surcharge load
     def plotter(self, lateral_pressure, centroid):
         h = self.h
         sigma_h = self.sigma_h
@@ -52,6 +52,25 @@ class surcharge:
                   facecolor='firebrick', edgecolor='none')
         del sigma_h[-1]
         del depth_list[-1]
+        plt.show()
+
+    # plotter for final --> must be checked
+    def total_plotter(self, lateral_pressure, centroid, sigma_h_array):
+        h = self.h
+        depth_list = self.depth_list
+        # add end point just for looking better
+        depth_list.append(h)
+        depth_array = np.array(depth_list)
+        sigma_h_array.add(0)
+
+        plt.plot(sigma_h_array, depth_array)
+        plt.gca().invert_yaxis()
+        plt.gca().xaxis.tick_top()
+        plt.fill(sigma_h_array, depth_array, color="lightsteelblue")
+        plt.arrow(x=max(sigma_h_array), y=centroid, dx=-max(sigma_h_array) + 0.7, dy=0, width=.15,
+                  facecolor='firebrick', edgecolor='none')
+        # del sigma_h[-1]
+        # del depth_list[-1]
         plt.show()
 
     # point load
@@ -82,9 +101,9 @@ class surcharge:
             print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
-            self.plotter(lateral_pressure, centroid)
+            # self.plotter(lateral_pressure, centroid)
             sigma_h.clear()
-            return lateral_pressure, centroid, self.error
+            return lateral_pressure, centroid, sigma_h_array, self.error
         else:
             return self.error
 
@@ -109,8 +128,9 @@ class surcharge:
             print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
-            self.plotter(lateral_pressure, centroid)
-            return lateral_pressure, centroid, self.error
+            # self.plotter(lateral_pressure, centroid)
+            sigma_h.clear()
+            return lateral_pressure, centroid, sigma_h_array, self.error
         else:
             return self.error
 
@@ -138,8 +158,9 @@ class surcharge:
             print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
-            self.plotter(lateral_pressure, centroid)
-            return lateral_pressure, centroid, self.error
+            # self.plotter(lateral_pressure, centroid)
+            sigma_h.clear()
+            return lateral_pressure, centroid, sigma_h_array, self.error
         else:
             return self.error
 
@@ -151,5 +172,5 @@ print(example.point_load(q=4000, l=6, teta=66.8))
 print(example.point_load(q=16000, l=12, teta=49.4))
 print(example.point_load(q=16000, l=12, teta=0))
 print(example.point_load(q=4000, l=12, teta=49.4))
-
-# def line_load(q, l, h, delta_h:0.1):
+print(example.line_load(q=400, l=12))
+print(example.line_load(q=4000, l=10))
