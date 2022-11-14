@@ -61,7 +61,7 @@ class surcharge:
         # add end point just for looking better
         depth_list.append(h)
         depth_array = np.array(depth_list)
-        sigma_h_array.add(0)
+        sigma_h_array = np.append(sigma_h_array, 0)
 
         plt.plot(sigma_h_array, depth_array)
         plt.gca().invert_yaxis()
@@ -81,10 +81,9 @@ class surcharge:
             n = self.n
             depth_list = self.depth_list
             # convert teta from degree to radian
-            teta = teta * np.pi / 180
+            teta = float(teta) * np.pi / 180
 
             m = l / h
-            print(m)
             i = 0
             for depth in depth_list:
                 if m <= 0.4:
@@ -98,7 +97,7 @@ class surcharge:
                 i += 1
             depth_array = np.array(depth_list)
             sigma_h_array = np.array(sigma_h)
-            print(sigma_h_array)
+            # print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
             # self.plotter(lateral_pressure, centroid)
@@ -125,7 +124,7 @@ class surcharge:
                 i += 1
             depth_array = np.array(depth_list)
             sigma_h_array = np.array(sigma_h)
-            print(sigma_h_array)
+            # print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
             # self.plotter(lateral_pressure, centroid)
@@ -155,7 +154,7 @@ class surcharge:
                     sigma_h.append(0)
             depth_array = np.array(depth_list)
             sigma_h_array = np.array(sigma_h)
-            print(sigma_h_array)
+            # print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
             # self.plotter(lateral_pressure, centroid)
@@ -166,11 +165,11 @@ class surcharge:
 
 
 example = surcharge(h=10, delta_h=2)
-print(example.point_load(q=16000, l=6, teta=66.8))
-print(example.point_load(q=16000, l=6, teta=0))
-print(example.point_load(q=4000, l=6, teta=66.8))
-print(example.point_load(q=16000, l=12, teta=49.4))
-print(example.point_load(q=16000, l=12, teta=0))
-print(example.point_load(q=4000, l=12, teta=49.4))
-print(example.line_load(q=400, l=12))
-print(example.line_load(q=4000, l=10))
+# print(example.point_load(q=16000, l=6, teta=66.8))
+# print(example.point_load(q=16000, l=6, teta=0))
+# print(example.point_load(q=4000, l=6, teta=66.8))
+# print(example.point_load(q=16000, l=12, teta=49.4))
+# print(example.point_load(q=16000, l=12, teta=0))
+# print(example.point_load(q=4000, l=12, teta=49.4))
+# print(example.line_load(q=400, l=12))
+# print(example.line_load(q=4000, l=10))
