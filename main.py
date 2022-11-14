@@ -1,11 +1,14 @@
 from input import input_values
 from surchargeLoad import surcharge
+import scipy.integrate as spi
 
 import numpy as np
 
 h = input_values.get("general information").get("h")
 delta_h = input_values.get("general information").get("delta h")
 surchargeInstance = surcharge(h, delta_h)
+depth_list = surchargeInstance.depth_list
+depth_array = np.array(depth_list)
 solution = []
 
 # pl --> point load
@@ -48,18 +51,44 @@ for i in range(sl_num):
 solution.append(solution_pl)
 solution.append(solution_ll)
 solution.append(solution_sl)
-lateral_pressure = 0
-lateral_multiple_centroid = 0
-# sigmah_pl = [0 for i in solution_pl]
-# sigmah_ll = [0 for i in solution_ll]
-# sigmah_sl = [0 for i in solution_sl]
-for item in solution:
-    for solve in item:
-        if solve[3][0] == "No error":
-            lateral_pressure += solve[0]
-            lateral_multiple_centroid += solve[0] * solve[1]
 
-centroid = lateral_multiple_centroid / lateral_pressure
+""" for plot final sigma h - h plot we should sum all sigma h array of every load.
+    for this result I create an array with length equal to length of sigma h array
+     of every solution ( index number 3 of every solution ( solution pl or ll or sl )
+      is sigma_h_array and all of them have same shape. ).
+    and 0 value.then I write a loop to sum sigma h array of every load with first 
+    sigma_h_array ( sum_sigma_h that has 0 value ).
+    now we can plot our final result and calculate centroid."""
+for i in solution:
+    try:
+        sum_sigma_h = np.array([0. for i in range(len(i[0][2]))])
+        break
+    except:
+        continue
+
+for load_type in range(len(solution)):
+    for load in range(len(solution[load_type])):
+        sum_sigma_h += solution[load_type][load][2]
+
+
+# calculate total centroid. there are two method.
+
+# number one
+# lateral_pressure1 = 0
+# lateral_multiple_centroid = 0
+# for item in solution:
+#     for solve in item:
+#         if solve[3][0] == "No error":
+#             lateral_pressure1 += solve[0]
+#             lateral_multiple_centroid += solve[0] * solve[1]
+# centroid1 = lateral_multiple_centroid / lateral_pressure1
+# print(lateral_pressure1)
+# print(centroid1)
+
+# number two
+lateral_pressure = spi.simpson(sum_sigma_h, depth_array)
+centroid = spi.simpson(sum_sigma_h * depth_array, depth_array) / lateral_pressure
 print(lateral_pressure)
+print(sum_sigma_h)
 print(centroid)
-# surchargeInstance.plotter(lateral_pressure, centroid)
+surchargeInstance.total_plotter(lateral_pressure, centroid, sum_sigma_h)
