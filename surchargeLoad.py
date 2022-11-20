@@ -2,13 +2,30 @@ import numpy as np
 import scipy.integrate as spi
 import matplotlib.pyplot as plt
 from math import *
-from time import sleep
+
+from plot import plotter2
 
 
 class surcharge:
-    def __init__(self, h, delta_h=0.1):
+    def __init__(self, unit_system, h, delta_h=0.01):
+        self.unit_system = unit_system
         self.h = h
         self.delta_h = delta_h
+
+        if h > 0 and delta_h <= h:
+            error = ["No error"]  # default value
+        else:
+            error = []
+        if delta_h > h:
+            error.append("Delta h can't be larger than h! Change your input!")
+        if h <= 0:
+            error.append("h can't be <= 0!")
+        depth_list = []
+
+        # for more accuracy and better output delta h can not be a large number
+        # delta h large --> decrease length of depth list
+        if delta_h > 0.1:
+            delta_h = 0.1  # minimum allowable delta h
 
         # count number of decimals
         delta_h_decimal = str(delta_h)[::-1].find('.')
@@ -22,9 +39,6 @@ class surcharge:
                             int(delta_h * pow(10, delta_h_decimal)))]
         for depth in depth_list:
             n.append(depth / h)
-        error = ["No error"]  # default value
-        if delta_h > h:
-            error = ["Delta h can't be larger than h! Change your input"]
 
         self.error = error
         self.delta_h_decimal = delta_h_decimal
@@ -54,7 +68,6 @@ class surcharge:
         del depth_list[-1]
         plt.show()
 
-    # plotter for final --> must be checked
     def total_plotter(self, lateral_pressure, centroid, sigma_h_array):
         h = self.h
         depth_list = self.depth_list
@@ -101,10 +114,11 @@ class surcharge:
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
             # self.plotter(lateral_pressure, centroid)
+            plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
             sigma_h.clear()
             return lateral_pressure, centroid, sigma_h_array, self.error
         else:
-            return self.error
+            return [], [], [], self.error
 
     def line_load(self, q, l):
         if self.error[0] == "No error":
@@ -127,11 +141,12 @@ class surcharge:
             # print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
+            plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
             # self.plotter(lateral_pressure, centroid)
             sigma_h.clear()
             return lateral_pressure, centroid, sigma_h_array, self.error
         else:
-            return self.error
+            return [], [], [], self.error
 
     def strip_load(self, q, l1, l2):
         a = l2 - l1
@@ -157,19 +172,20 @@ class surcharge:
             # print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
+            plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
             # self.plotter(lateral_pressure, centroid)
             sigma_h.clear()
             return lateral_pressure, centroid, sigma_h_array, self.error
         else:
-            return self.error
+            return [], [], [], self.error
 
 
-example = surcharge(h=10, delta_h=2)
-# print(example.point_load(q=16000, l=6, teta=66.8))
+example = surcharge(unit_system="us", h=10, delta_h=2)
+print(example.point_load(q=16000, l=6, teta=66.8))
 # print(example.point_load(q=16000, l=6, teta=0))
 # print(example.point_load(q=4000, l=6, teta=66.8))
-# print(example.point_load(q=16000, l=12, teta=49.4))
+print(example.point_load(q=16000, l=12, teta=49.4))
 # print(example.point_load(q=16000, l=12, teta=0))
 # print(example.point_load(q=4000, l=12, teta=49.4))
-# print(example.line_load(q=400, l=12))
+print(example.line_load(q=400, l=12))
 # print(example.line_load(q=4000, l=10))
