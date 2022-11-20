@@ -18,6 +18,8 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
                                                                  xaxis={"side": "top"})
     j = int(len(depth_list) / 5)
     plot['layout']['yaxis']['autorange'] = "reversed"
+    plot['layout']['xaxis']['range'] = [-0.5, max(sigma_h_array) + 0.5]
+
     result = go.layout.Annotation(dict(
         x=0.01,
         y=centroid,
