@@ -1,6 +1,7 @@
 from input import input_values
 from surchargeLoad import surcharge
 import scipy.integrate as spi
+from output import output
 
 import numpy as np
 
@@ -8,10 +9,12 @@ max_load_number = 9  # In site I will define a specific number of load. it can b
 
 
 def surcharge_calculator(input_values):
+    product_id = input_values.get("product_id")
+    user_id = input_values.get("user_id")
     unit_system = input_values.get("unit system")
     h = input_values.get("general information").get("h")
     delta_h = input_values.get("general information").get("delta h")
-    surchargeInstance = surcharge(h, delta_h)
+    surchargeInstance = surcharge(unit_system, h, delta_h)
     depth_list = surchargeInstance.depth_list
     depth_array = np.array(depth_list)
     solution = []
@@ -56,8 +59,6 @@ def surcharge_calculator(input_values):
             sl_l2.append(input_values.get("general information").get("l2" + i * spaceNum))
             solution_sl.append(surchargeInstance.strip_load(sl_q[i_sl], sl_l1[i_sl], sl_l2[i_sl]))
             i_sl += 1
-            i_sl
-
         else:
             pass  # no load
 
@@ -104,22 +105,10 @@ def surcharge_calculator(input_values):
     print(sum_sigma_h)
     print(centroid)
     surchargeInstance.total_plotter(lateral_pressure, centroid, sum_sigma_h)
-    otitle = ["lateral pressure calculator - Output Summary",
-              "Final Solution Alternatives"]
-    header1 = [4, "lateral pressure"]
-    if unit_system == "us":
-        length_unit = "ft"
-        pressure_unit = "psf"
-    else:
-        length_unit = "m"
-        pressure_unit = "Pa"
-    units = [length_unit, pressure_unit]
 
-    header2 = ["Z", "Ϭh", "Z bar", "P"]
-    values = [["load 1"], ["load 2 "]]
+    Output = output(product_id, user_id, solution, sum_sigma_h, depth_array, lateral_pressure, centroid, unit_system)
+    return Output
 
 
-    output = []
-    return output
-
-output = surcharge_calculator(input_values)
+final_output = surcharge_calculator(input_values)
+print(final_output)
