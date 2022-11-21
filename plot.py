@@ -20,6 +20,15 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
     plot['layout']['yaxis']['autorange'] = "reversed"
     plot['layout']['xaxis']['range'] = [-0.5, max(sigma_h_array) + 0.5]
 
+    # show maximum
+    plot.add_traces(
+        go.Scatter(
+            x=np.array(max(sigma_h_array)), y=np.array(depth_array[np.where(sigma_h_array == max(sigma_h_array))]),
+            mode="markers", name="Max", hoverinfo="skip"
+        )
+    )
+    plot.update_traces(marker={'size': 15})
+
     result = go.layout.Annotation(dict(
         x=0.01,
         y=centroid,
@@ -101,4 +110,5 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
     list_of_all_arrows = [result, arrow1, arrow2, arrow3, arrow4, arrow5]
 
     plot.update_layout(annotations=list_of_all_arrows)
+    plot.show()
     return plot
