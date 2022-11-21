@@ -48,14 +48,13 @@ def output_noSolution(product_id, user_id, error):
               "Final Solution Alternatives"]
     header1 = [len(error) + 1, "Error!"]  # +1 --> number of errors
 
-    """header 2 : titles --> number of errors , description , and for another just space."""
+    """header 2 : titles --> number of errors , description"""
     header2 = ["Number of errors", "Description"]
-    for i in range(len(error) - 1):
-        header2.append('')
     solution = [len(error)]
     for i in error:
         solution.append(i)
     values = [solution]
+    unit = []
 
-    Output = [otitle, header1, header2, values]
+    Output = [otitle, header1, header2, unit, values]
     return Output
