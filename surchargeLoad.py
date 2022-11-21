@@ -149,6 +149,7 @@ class surcharge:
             return [], [], [], self.error
 
     def strip_load(self, q, l1, l2):
+        h = self.h
         a = l2 - l1
         if self.error[0] == "No error":
             sigma_h = self.sigma_h
@@ -181,11 +182,11 @@ class surcharge:
 
 
 example = surcharge(unit_system="us", h=10, delta_h=2)
-print(example.point_load(q=16000, l=6, teta=66.8))
+# print(example.point_load(q=16000, l=6, teta=66.8))
 # print(example.point_load(q=16000, l=6, teta=0))
 # print(example.point_load(q=4000, l=6, teta=66.8))
-print(example.point_load(q=16000, l=12, teta=49.4))
+# print(example.point_load(q=16000, l=12, teta=49.4))
 # print(example.point_load(q=16000, l=12, teta=0))
 # print(example.point_load(q=4000, l=12, teta=49.4))
-print(example.line_load(q=400, l=12))
+# print(example.line_load(q=400, l=12))
 # print(example.line_load(q=4000, l=10))
