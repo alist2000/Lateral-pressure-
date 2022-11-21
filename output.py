@@ -1,4 +1,4 @@
-def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, centroid, unit_system):
+def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, centroid, unit_system, plots):
     otitle = ["lateral pressure calculator - Output Summary",
               "Final Solution Alternatives"]
     header1 = [2, "lateral pressure"]
@@ -40,6 +40,13 @@ def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, 
     output.append(units)
     output.append(values)
     output.append(file_name)
+
+    i = 1
+    for plot in plots:
+        plot.write_html(f"plot/output{i}.html",
+                        full_html=False,
+                        include_plotlyjs='cdn')
+        i += 1
     return output
 
 
