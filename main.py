@@ -1,7 +1,7 @@
 from input import input_values
 from surchargeLoad import surcharge
 import scipy.integrate as spi
-from output import output
+from output import output, output_noSolution
 
 import numpy as np
 import json
@@ -67,6 +67,13 @@ def surcharge_calculator(input_values):
     solution.append(solution_pl)
     solution.append(solution_ll)
     solution.append(solution_sl)
+
+    # Check for errors
+    for load_type in solution:
+        for load in load_type:
+            if load[3][0] != "No error":
+                Output = output_noSolution(product_id, user_id, load[3])
+                return Output
 
     """ to drawing final sigma h - z plot we should sum all sigma h array of every load.
         for this result I create an array with length equal to length of sigma h array
