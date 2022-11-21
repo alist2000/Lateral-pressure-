@@ -17,7 +17,7 @@ class surcharge:
         else:
             error = []
         if delta_h > h:
-            error.append("Delta h can't be larger than h! Change your input!")
+            error.append("Δh can't be larger than h! Change your input!")
         if h <= 0:
             error.append("h can't be <= 0!")
         depth_list = []
@@ -114,11 +114,11 @@ class surcharge:
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
             # self.plotter(lateral_pressure, centroid)
-            plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
+            plot = plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
             sigma_h.clear()
-            return lateral_pressure, centroid, sigma_h_array, self.error
+            return lateral_pressure, centroid, sigma_h_array, plot, self.error
         else:
-            return [], [], [], self.error
+            return [], [], [], [], self.error
 
     def line_load(self, q, l):
         if self.error[0] == "No error":
@@ -141,12 +141,12 @@ class surcharge:
             # print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
-            plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
+            plot = plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
             # self.plotter(lateral_pressure, centroid)
             sigma_h.clear()
-            return lateral_pressure, centroid, sigma_h_array, self.error
+            return lateral_pressure, centroid, sigma_h_array, plot, self.error
         else:
-            return [], [], [], self.error
+            return [], [], [], [], self.error
 
     def strip_load(self, q, l1, l2):
         h = self.h
@@ -173,15 +173,15 @@ class surcharge:
             # print(sigma_h_array)
             lateral_pressure = spi.simpson(sigma_h_array, depth_array)
             centroid = spi.simpson(sigma_h_array * depth_array, depth_array) / lateral_pressure
-            plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
+            plot = plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
             # self.plotter(lateral_pressure, centroid)
             sigma_h.clear()
-            return lateral_pressure, centroid, sigma_h_array, self.error
+            return lateral_pressure, centroid, sigma_h_array, plot, self.error
         else:
-            return [], [], [], self.error
+            return [], [], [], [], self.error
 
 
-example = surcharge(unit_system="us", h=10, delta_h=2)
+# example = surcharge(unit_system="us", h=10, delta_h=2)
 # print(example.point_load(q=16000, l=6, teta=66.8))
 # print(example.point_load(q=16000, l=6, teta=0))
 # print(example.point_load(q=4000, l=6, teta=66.8))
