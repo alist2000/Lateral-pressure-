@@ -1,3 +1,12 @@
+max_number_of_loads = 4  # this value can be changed according to site inputs
+plots = []
+for i in range(max_number_of_loads + 1):
+    try:
+        plots.append(open(f"plot/output{i + 1}.html", "r").read())
+    except:
+        pass
+
+
 def generate_html_response_surcharge(output):
     html = "<html>"
     html_end = "</html>"
@@ -162,8 +171,11 @@ def generate_html_response_surcharge(output):
           """
 
         h8 = """
-        <td style="width: 10%;text-align: center;" ><t2>
+        <td style="width: 20%;text-align: center; vertical-align: middle" ><t2>
         """
+        h8_1 = """
+                <td rowspan="2" ,style="width: 60%;text-align: center;"><t2>
+                """
 
         h9 = """
         </t2></td>
@@ -194,6 +206,8 @@ def generate_html_response_surcharge(output):
                     s += tr
                     for j in range(output[1][i]):
                         s = s + h8 + output[2][c1] + h9
+                        if c1 == 1:
+                            s = s + h8_1 + plots[k] + h9
                         c1 = c1 + 1
                     s += tr_end
                     for j in range(output[1][i]):
@@ -1116,8 +1130,22 @@ def generate_html_response_BFP_multi_no_solution(output, project_num):
 #       'p14u10_Solution5_Surcharge_Summary_Report', 'p14u10_Solution5_Surcharge_Detailed_Report',
 #       'p14u10_Solution6_Surcharge_Summary_Report', 'p14u10_Solution6_Surcharge_Detailed_Report',
 #       'p14u10_Solution7_Surcharge_Summary_Report', 'p14u10_Solution7_Surcharge_Detailed_Report']]))
-print(generate_html_response_surcharge_no_solution(
-    [['lateral pressure calculator - Output Summary', 'Final Solution Alternatives'], [3, 'Error!'],
-     ['Number of errors', 'Description'], [],
-     [[2, "Delta h can't be larger than h! Change your input!", "h can't be <= 0!"]]]
-    ))
+output = generate_html_response_surcharge(
+    [['lateral pressure calculator - Output Summary', 'Final Solution Alternatives'], [2, 'lateral pressure'],
+     ['P (psf)', 'Z (ft)'], ['ft', 'psf'],
+     [[89.42, 5], [66.27, 4], [2126.9, 4], [67.41, 3], [2349.995621020485, 4.157602527676236]],
+     ['p25u44_Solution1_Surcharge_Summary_Report', 'p25u44_Solution1_Surcharge_Detailed_Report',
+      'p25u44_Solution2_Surcharge_Summary_Report', 'p25u44_Solution2_Surcharge_Detailed_Report',
+      'p25u44_Solution3_Surcharge_Summary_Report', 'p25u44_Solution3_Surcharge_Detailed_Report',
+      'p25u44_Solution4_Surcharge_Summary_Report', 'p25u44_Solution4_Surcharge_Detailed_Report',
+      'p25u44_Solution5_Surcharge_Summary_Report', 'p25u44_Solution5_Surcharge_Detailed_Report']]
+    )
+b = open("finaloutputkjhjh.html", "a")
+b.write(output)
+b.close()
+
+# print(generate_html_response_surcharge_no_solution(
+#     [['lateral pressure calculator - Output Summary', 'Final Solution Alternatives'], [3, 'Error!'],
+#      ['Number of errors', 'Description'], [],
+#      [[2, "Delta h can't be larger than h! Change your input!", "h can't be <= 0!"]]]
+# ))
