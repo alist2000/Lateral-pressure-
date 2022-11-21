@@ -4,16 +4,17 @@ import scipy.integrate as spi
 from output import output
 
 import numpy as np
+import json
 
-max_load_number = 9  # In site I will define a specific number of load. it can be changed.
+max_load_number = 4  # In site I will define a specific number of load. it can be changed.
 
 
 def surcharge_calculator(input_values):
     product_id = input_values.get("product_id")
     user_id = input_values.get("user_id")
-    unit_system = input_values.get("unit system")
-    h = input_values.get("general information").get("h")
-    delta_h = input_values.get("general information").get("delta h")
+    unit_system = input_values.get("information").get("unit")
+    h = float(input_values.get("data").get("Load Properties").get("H").get("value"))
+    delta_h = float(input_values.get("data").get("Load Properties").get("Δh").get("value"))
     surchargeInstance = surcharge(unit_system, h, delta_h)
     depth_list = surchargeInstance.depth_list
     depth_array = np.array(depth_list)
@@ -39,24 +40,25 @@ def surcharge_calculator(input_values):
     i_ll = 0
     i_sl = 0
     for i in range(max_load_number):
-        load_type.append(input_values.get("general information").get("Load Type" + i * spaceNum))
+        load_type_dict = json.loads(input_values.get("data").get("Load Properties").get("Load Type" + i * spaceNum).get("value")).get("item")
+        load_type.append(load_type_dict)
         if load_type[i] == "Point Load":
-            pl_q.append(input_values.get("general information").get("q" + i * spaceNum))
-            pl_l.append(input_values.get("general information").get("l1" + i * spaceNum))
-            pl_teta.append(input_values.get("general information").get("teta" + i * spaceNum))
+            pl_q.append(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value")))
+            pl_l.append(float(input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value")))
+            pl_teta.append(float(input_values.get("data").get("Load Properties").get("Ɵ" + i * spaceNum).get("value")))
             solution_pl.append(surchargeInstance.point_load(pl_q[i_pl], pl_l[i_pl], pl_teta[i_pl]))
             i_pl += 1
         elif load_type[i] == "Line Load":
-            ll_q.append(input_values.get("general information").get("q" + i * spaceNum))
-            ll_l.append(input_values.get("general information").get("l1" + i * spaceNum))
+            ll_q.append(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value")))
+            ll_l.append(float(input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value")))
             print(ll_q)
             print(ll_l)
             solution_ll.append(surchargeInstance.line_load(ll_q[i_ll], ll_l[i_ll]))
             i_ll += 1
         elif load_type[i] == "Strip Load":
-            sl_q.append(input_values.get("general information").get("q" + i * spaceNum))
-            sl_l1.append(input_values.get("general information").get("l1" + i * spaceNum))
-            sl_l2.append(input_values.get("general information").get("l2" + i * spaceNum))
+            sl_q.append(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value")))
+            sl_l1.append(float(input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value")))
+            sl_l2.append(float(input_values.get("data").get("Load Properties").get("L2" + i * spaceNum).get("value")))
             solution_sl.append(surchargeInstance.strip_load(sl_q[i_sl], sl_l1[i_sl], sl_l2[i_sl]))
             i_sl += 1
         else:
@@ -66,7 +68,7 @@ def surcharge_calculator(input_values):
     solution.append(solution_ll)
     solution.append(solution_sl)
 
-    """ for plot final sigma h - h plot we should sum all sigma h array of every load.
+    """ to drawing final sigma h - z plot we should sum all sigma h array of every load.
         for this result I create an array with length equal to length of sigma h array
          of every solution ( index number 3 of every solution ( solution pl or ll or sl )
           is sigma_h_array and all of them have same shape. ).
