@@ -101,8 +101,4 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
     list_of_all_arrows = [result, arrow1, arrow2, arrow3, arrow4, arrow5]
 
     plot.update_layout(annotations=list_of_all_arrows)
-    plot.write_html(f"output.html",
-                    full_html=False,
-                    include_plotlyjs='cdn')
-    plot.show()
-    return None
+    return plot
