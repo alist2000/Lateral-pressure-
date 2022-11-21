@@ -15,14 +15,14 @@ def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, 
         i = 0
         for load_type in solution:
             for load in load_type:
-                load_solution = [load[0], load[1]]  # lateral pressure , centroid
+                load_solution = [round(load[0], 2), round(load[1], 2)]  # lateral pressure , centroid
                 values.append(load_solution)
                 i += 1
 
     # add final solution
-    values.append([lateral_pressure, centroid])
+    values.append([round(lateral_pressure, 2), round(centroid, 2)])
 
-    header2 = ["P", "Z"]
+    header2 = [f"P ({pressure_unit})", f"Z ({length_unit})"]
     # values = [["load 1"], ["load 2 "]]
     file_name = []
     for i in range(len(values)):
