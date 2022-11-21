@@ -41,3 +41,21 @@ def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, 
     output.append(values)
     output.append(file_name)
     return output
+
+
+def output_noSolution(product_id, user_id, error):
+    otitle = ["lateral pressure calculator - Output Summary",
+              "Final Solution Alternatives"]
+    header1 = [len(error) + 1, "Error!"]  # +1 --> number of errors
+
+    """header 2 : titles --> number of errors , description , and for another just space."""
+    header2 = ["Number of errors", "Description"]
+    for i in range(len(error) - 1):
+        header2.append('')
+    solution = [len(error)]
+    for i in error:
+        solution.append(i)
+    values = [solution]
+
+    Output = [otitle, header1, header2, values]
+    return Output
