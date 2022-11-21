@@ -18,6 +18,8 @@ class surcharge:
             error = []
         if delta_h > h:
             error.append("Δh can't be larger than h! Change your input!")
+        if delta_h <= 0:
+            error.append("Δh can't be <= 0!")
         if h <= 0:
             error.append("h can't be <= 0!")
         depth_list = []
