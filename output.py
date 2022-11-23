@@ -22,7 +22,7 @@ def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, 
     # add final solution
     values.append([round(lateral_pressure, 2), round(centroid, 2)])
 
-    header2 = [f"P ({pressure_unit})", f"Z ({length_unit})"]
+    header2 = [f"Pr ({pressure_unit})", f"Zr ({length_unit})"]
     # values = [["load 1"], ["load 2 "]]
     file_name = []
     for i in range(len(values)):
