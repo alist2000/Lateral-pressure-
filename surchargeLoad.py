@@ -9,6 +9,8 @@ from plot import plotter2
 class surcharge:
     def __init__(self, unit_system, h, delta_h=0.01):
         self.unit_system = unit_system
+        h = abs(float(h))
+        delta_h = abs(float(delta_h))
         self.h = h
         self.delta_h = delta_h
 
@@ -90,7 +92,7 @@ class surcharge:
 
     # point load
     def point_load(self, q, l, teta=0.):
-        if self.error[0] == "No error":
+        if self.error[0] == "No error" and q != 0:
             h = self.h
             sigma_h = self.sigma_h
             n = self.n
@@ -98,6 +100,9 @@ class surcharge:
             # convert teta from degree to radian
             teta = float(teta) * np.pi / 180
 
+            l = abs(float(l))
+            q = abs(float(q))
+            teta = float(teta)
             m = l / h
             i = 0
             for depth in depth_list:
@@ -120,16 +125,23 @@ class surcharge:
             sigma_h.clear()
             return lateral_pressure, centroid, sigma_h_array, plot, self.error
         else:
-            return [], [], [], [], self.error
+            error = []
+            for i in self.error:
+                error.append(i)
+                if q == 0:
+                    error.append("q cannot be equal to 0!")
+            return [], [], [], [], error
 
     def line_load(self, q, l):
-        if self.error[0] == "No error":
+        if self.error[0] == "No error" and q != 0:
             h = self.h
             sigma_h = self.sigma_h
             n = self.n
             depth_list = self.depth_list
 
             i = 0
+            l = abs(float(l))
+            q = abs(float(q))
             m = l / h
             for depth in depth_list:
                 if m <= 0.4:
@@ -148,12 +160,29 @@ class surcharge:
             sigma_h.clear()
             return lateral_pressure, centroid, sigma_h_array, plot, self.error
         else:
-            return [], [], [], [], self.error
+            error = []
+            for i in self.error:
+                error.append(i)
+                if q == 0:
+                    error.append("q cannot be equal to 0!")
+            return [], [], [], [], error
 
     def strip_load(self, q, l1, l2):
+        error_strip_load = "No error"
         h = self.h
+        l1 = float(l1)
+        l2 = float(l2)
+        q = abs(float(q))
         a = l2 - l1
-        if self.error[0] == "No error":
+        if a < 0:
+            l1_edited = l2
+            l2_edited = l1
+            l1 = l1_edited
+            l2 = l2_edited
+            a = abs(a)
+        if a == 0:
+            error_strip_load = "L1 and L2 cannot be equal! If it happen there is no strip load."
+        if self.error[0] == "No error" and error_strip_load == "No error" and q != 0:
             sigma_h = self.sigma_h
             depth_list = self.depth_list
 
@@ -180,8 +209,13 @@ class surcharge:
             sigma_h.clear()
             return lateral_pressure, centroid, sigma_h_array, plot, self.error
         else:
-            return [], [], [], [], self.error
-
+            error = []
+            for i in self.error:
+                error.append(i)
+            error.append(error_strip_load)
+            if q == 0:
+                error.append("q cannot be equal to 0!")
+            return [], [], [], [], error
 
 # example = surcharge(unit_system="us", h=10, delta_h=2)
 # print(example.point_load(q=16000, l=6, teta=66.8))
