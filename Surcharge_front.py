@@ -171,10 +171,10 @@ def generate_html_response_surcharge(output):
           """
 
         h8 = """
-        <td style="width: 20%;text-align: center; vertical-align: middle" ><t2>
+        <td style="width: 35%;text-align: center; vertical-align: middle" ><t2>
         """
         h8_1 = """
-                <td rowspan="2" ,style="width: 60%;text-align: center;"><t2>
+                <td rowspan="2" ,style="width: 30%;text-align: center;"><t2>
                 """
 
         h9 = """
