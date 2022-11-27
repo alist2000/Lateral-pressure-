@@ -1,7 +1,35 @@
-def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, centroid, unit_system, plots):
+def output(product_id, user_id, inputs, solution, sum_sigma_h, depth, lateral_pressure, centroid, unit_system, plots):
+    # control inputs
+    h = inputs[0]
+    load_type_all = inputs[1]
+    q_all = inputs[2]
+    l1_all = inputs[3]
+    l2_all = inputs[4]
+    teta = inputs[5]
+    title_input = ["H = ", "q = ", "L1 = ", "L2 = ", "Ɵ = "]
+
+    input_values = []
+    j = 0
+    for i in load_type_all:
+        if i == "Point Load":
+            input_values.append(
+                [title_input[0] + str(h), title_input[1] + str(q_all[j]), title_input[2] + str(l1_all[j]),
+                 title_input[4] + str(teta[j])])
+            j += 1
+        if i == "Line Load":
+            input_values.append(
+                [title_input[0] + str(h), title_input[1] + str(q_all[j]), title_input[2] + str(l1_all[j])])
+            j += 1
+        if i == "Strip Load":
+            input_values.append(
+                [title_input[0] + str(h), title_input[1] + str(q_all[j]), title_input[2] + str(l1_all[j]),
+                 title_input[3] + str(l2_all[j])])
+            j += 1
+
+    # control results
     otitle = ["lateral pressure calculator - Output Summary",
               "Final Solution Alternatives"]
-    header1 = [2, "lateral pressure"]
+    header1 = [3, "lateral pressure"]
     if unit_system == "us":
         length_unit = "ft"
         pressure_unit = "psf"
@@ -22,7 +50,7 @@ def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, 
     # add final solution
     values.append([round(lateral_pressure, 2), round(centroid, 2)])
 
-    header2 = [f"Pr ({pressure_unit})", f"Zr ({length_unit})"]
+    header2 = ["Inputs", f"Pr ({pressure_unit})", f"Zr ({length_unit})"]
     # values = [["load 1"], ["load 2 "]]
     file_name = []
     for i in range(len(values)):
@@ -47,7 +75,7 @@ def output(product_id, user_id, solution, sum_sigma_h, depth, lateral_pressure, 
                         full_html=False,
                         include_plotlyjs='cdn')
         i += 1
-    return output
+    return input_values, output
 
 
 def output_noSolution(product_id, user_id, error):
