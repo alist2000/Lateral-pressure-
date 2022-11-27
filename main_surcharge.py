@@ -23,6 +23,13 @@ def surcharge_calculator(input_values):
     load_type = []
     plots = []
 
+    # lists for output
+    load_type_all = []
+    q_all = []
+    l1_all = []
+    l2_all = []
+    teta_all = []
+
     # pl --> point load
     pl_q = []
     pl_l = []
@@ -46,38 +53,62 @@ def surcharge_calculator(input_values):
             input_values.get("data").get("Load Properties").get("Load Type" + i * spaceNum).get("value")).get("item")
         load_type.append(load_type_dict)
         if load_type[i] == "Point Load":
-            pl_q.append(
-                abs(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value"))))
-            if pl_q[i_pl] != 0:
-                pl_l.append(input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value"))
-                pl_teta.append(input_values.get("data").get("Load Properties").get("Ɵ" + i * spaceNum).get("value"))
+            q = abs(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value")))
+            pl_q.append(q)
+            if q != 0:
+                l1 = input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value")
+                teta = input_values.get("data").get("Load Properties").get("Ɵ" + i * spaceNum).get("value")
+                pl_l.append(l1)
+                pl_teta.append(teta)
                 point_load = surchargeInstance.point_load(pl_q[i_pl], pl_l[i_pl], pl_teta[i_pl])
                 plots.append(point_load[3])  # plot index = 3
                 solution_pl.append(point_load)
                 i_pl += 1
+
+                load_type_all.append(load_type_dict)
+                q_all.append(q)
+                l1_all.append(l1)
+                teta_all.append(teta)
+                l2_all.append("")
+
             else:  # it's like there is no load!
                 del pl_q[i_pl]
         elif load_type[i] == "Line Load":
-            ll_q.append(
-                abs(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value"))))
-            if ll_q[i_ll] != 0:
-                ll_l.append(input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value"))
+            q = abs(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value")))
+            ll_q.append(q)
+            if q != 0:
+                l1 = input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value")
+                ll_l.append(l1)
                 line_load = surchargeInstance.line_load(ll_q[i_ll], ll_l[i_ll])
                 plots.append(line_load[3])  # plot index = 3
                 solution_ll.append(line_load)
                 i_ll += 1
+
+                load_type_all.append(load_type_dict)
+                q_all.append(q)
+                l1_all.append(l1)
+                teta_all.append("")
+                l2_all.append("")
             else:  # it's like there is no load!
                 del ll_q[i_ll]
         elif load_type[i] == "Strip Load":
-            sl_q.append(
-                abs(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value"))))
+            q = abs(float(input_values.get("data").get("Load Properties").get("q" + i * spaceNum).get("value")))
+            sl_q.append(q)
             if sl_q[i_sl] != 0:
-                sl_l1.append(input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value"))
-                sl_l2.append(input_values.get("data").get("Load Properties").get("L2" + i * spaceNum).get("value"))
+                l1 = input_values.get("data").get("Load Properties").get("L1" + i * spaceNum).get("value")
+                sl_l1.append(l1)
+                l2 = input_values.get("data").get("Load Properties").get("L2" + i * spaceNum).get("value")
+                sl_l2.append(l2)
                 strip_load = surchargeInstance.strip_load(sl_q[i_sl], sl_l1[i_sl], sl_l2[i_sl])
                 plots.append(strip_load[3])  # plot index = 3
                 solution_sl.append(strip_load)
                 i_sl += 1
+
+                load_type_all.append(load_type_dict)
+                q_all.append(q)
+                l1_all.append(l1)
+                l2_all.append(l2)
+                teta_all.append("")
             else:
                 del sl_q[i_sl]
         else:
@@ -136,9 +167,11 @@ def surcharge_calculator(input_values):
     # surchargeInstance.total_plotter(lateral_pressure, centroid, sum_sigma_h)
     result_plot = plotter2(unit_system, h, sum_sigma_h, depth_list, lateral_pressure, centroid)
     plots.append(result_plot)
-    Output = output(product_id, user_id, solution, sum_sigma_h, depth_array, lateral_pressure, centroid, unit_system,
+
+    inputs = [h, load_type_all, q_all, l1_all, l2_all, teta_all]
+    inputs, Output = output(product_id, user_id, inputs, solution, sum_sigma_h, depth_array, lateral_pressure, centroid, unit_system,
                     plots)
-    return Output
+    return inputs, Output
 
 
 final_output = surcharge_calculator(input_values)
