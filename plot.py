@@ -28,7 +28,7 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
     )
     j = int(len(depth_list) / 5)
     plot['layout']['yaxis']['autorange'] = "reversed"
-    plot['layout']['xaxis']['range'] = [-max(sigma_h_array)/60, max(sigma_h_array) + max(sigma_h_array)/60]
+    plot['layout']['xaxis']['range'] = [-max(sigma_h_array) / 20, max(sigma_h_array) + max(sigma_h_array) / 20]
 
     # show maximum
     plot.add_traces(
@@ -44,6 +44,7 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
     result = go.layout.Annotation(dict(
         x=0.01,
         y=centroid,
+        opacity=0.7,
         xref="x", yref="y",
         text="",
         showarrow=True,
@@ -52,7 +53,7 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
         ay=centroid,
         arrowhead=3,
         arrowwidth=3,
-        arrowcolor='#cccccc', )
+        arrowcolor='#e6192b', )
     )
     arrow1 = go.layout.Annotation(dict(
         x=0.01,
@@ -125,13 +126,37 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
 
     # add annotation for result force
     plot.add_traces((
-        go.Line(x=[max(sigma_h_array) + 0.5], y=[0], mode='markers + text',
-                marker=dict(size=15, symbol='star-triangle-up-dot')),
+        go.Line(x=[max(sigma_h_array) + + max(sigma_h_array) / 80], y=[0], mode='markers + text',
+                marker=dict(symbol='triangle-up'), hoverinfo='skip'),
         go.Line(x=[max(sigma_h_array) + max(sigma_h_array) / 80], y=[centroid], mode='markers + text',
-                marker=dict(size=15, symbol='star-triangle-down-dot')),
+                marker=dict(symbol='triangle-down'), hoverinfo='skip', opacity=0.7)
+    ))
+    plot.update_traces(showlegend=False, marker=dict(color="#e6192b", size=7), legendgroup="dimention")
+    plot.add_traces(
         go.Line(x=[max(sigma_h_array) + max(sigma_h_array) / 80, max(sigma_h_array) + max(sigma_h_array) / 80],
-                y=[0, centroid])))
-    plot.update_traces(showlegend=False, marker=dict(color="#cccccc", size=5), legendgroup="dimention")
+                y=[0, centroid], mode="lines", marker=dict(color="#e6192b", size=3), hoverinfo='skip', opacity=0.7))
+    plot.update_traces(showlegend=False, legendgroup="dimention")
+    # add text for annotations
+    plot.add_annotation(dict(font=dict(color="#595959", size=16),
+                             # x=x_loc,
+                             x=max(sigma_h_array) + max(sigma_h_array) / 20,
+                             y=centroid / 2,
+                             showarrow=False,
+                             text='<b>Zr</b>',
+                             textangle=0
+                             # xref="x",
+                             # yref="paper"
+                             ))
+    plot.add_annotation(dict(font=dict(color="#595959", size=20),
+                             # x=x_loc,
+                             x=max(sigma_h_array) + max(sigma_h_array) / 20,
+                             y=centroid,
+                             showarrow=False,
+                             text='<b style="font-size: 0.8vw">Pr</b>',
+                             textangle=0
+                             # xref="x",
+                             # yref="paper"
+                             ))
 
     # changing background color
     layout = Layout(
@@ -139,5 +164,6 @@ def plotter2(unit_system, h, sigma_h, depth_list, lateral_pressure, centroid):
         plot_bgcolor='#ffffff'
     )
     plot.update_layout(layout)
+
     # plot.show()
     return plot
