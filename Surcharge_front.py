@@ -7,7 +7,7 @@ for i in range(max_number_of_loads + 1):
         pass
 
 
-def generate_html_response_surcharge(output):
+def generate_html_response_surcharge(inputs, output):
     html = "<html>"
     html_end = "</html>"
 
@@ -171,12 +171,11 @@ def generate_html_response_surcharge(output):
           """
 
         h8 = """
-        <td style="width: 35%;text-align: center; vertical-align: middle" ><t2>
+        <td style="width: 17.5%;text-align: center; vertical-align: middle" ><t2>
         """
-        h8_1 = """
+        h8_3 = """
                 <td rowspan="2" ,style="width: 30%;text-align: center;"><t2>
                 """
-
         h9 = """
         </t2></td>
         """
@@ -184,13 +183,30 @@ def generate_html_response_surcharge(output):
         s = ""
         print(range(len(output[4])))
         for k in range(len(output[4])):
+
+            # control number of row
+            # if load type = line load we have 4 rows ( title , h, q, l) else 5 ( title, h, q, l1, l2 or teta) --> all rows
+            # max row = 4 except title row
+            try:
+                all_row = len(inputs[k]) + 1
+                row = len(inputs[k])
+            except:
+                all_row = 5
+                row = 4
+            h8_1 = f"""
+                            <td rowspan="{all_row}" ,style="width: 30%;text-align: center;"><t2>
+                            """
+            h8_2 = f"""
+                            <td rowspan="{row}" ,style="width: 17.5%;text-align: center; vertical-align: middle" ><t2>
+                            """
+
             # Table Header - Solution Number
             if k == len(output[4]) - 1:
                 s = s + t1_final + t2
             else:
                 s = s + t1 + str(k + 1) + t2
             # try:
-            s = s + t3 + output[5][2 * k] + t4 + output[5][2 * k + 1] + t5 + m1
+            s = s + t3 + output[5][2 * k] + t5 + m1
             # except:
             #     s = s + t3 + str(output[5][0]) + \
             #         t4 + str(output[5][1]) + t5 + m1
@@ -206,16 +222,39 @@ def generate_html_response_surcharge(output):
                     s += tr
                     for j in range(output[1][i]):
                         s = s + h8 + output[2][c1] + h9
-                        if c1 == 1:
+                        if c1 == 1 and k != len(output[4]) - 1:
                             s = s + h8_1 + plots[k] + h9
+                        if k == len(output[4]) - 1:
+                            s = s + h8_3 + plots[k] + h9
                         c1 = c1 + 1
                     s += tr_end
-                    for j in range(output[1][i]):
-                        if j == 0:
-                            s = s + tr
-                        s = s + h8 + str(output[4][k][c3]) + h9
-                        c3 = c3 + 1
-                    s += tr_end
+
+                    if k == len(output[4]) - 1:  # result
+                        for j in range(output[1][i]):
+                            if j == 0:
+                                s = s + tr
+                                s = s + """<td rowspan="2" ,style="width: 30%;text-align: center;"><t2> </t2></td>"""  # result has no input actually!
+                            s = s + h8_2 + str(output[4][k][c3]) + h9
+                            c3 = c3 + 1
+
+                        s += tr_end
+                    else:
+                        row_number = 1
+
+                        for input_number in inputs[k]:
+                            col_number = 1
+                            for j in range(output[1][i]):
+                                if j == 0:
+                                    s = s + tr
+                                s = s + h8 + str(input_number) + h9
+                                if row_number == 1 and col_number == 2:
+                                    s = s + h8_2 + str(output[4][k][c3]) + h9
+                                    c3 = c3 + 1
+
+                                col_number += 1
+
+                            row_number += 1
+                            s += tr_end
                     s = s + tbody_end + table_end
             s = s + m1 + hr
 
@@ -1130,16 +1169,24 @@ def generate_html_response_BFP_multi_no_solution(output, project_num):
 #       'p14u10_Solution5_Surcharge_Summary_Report', 'p14u10_Solution5_Surcharge_Detailed_Report',
 #       'p14u10_Solution6_Surcharge_Summary_Report', 'p14u10_Solution6_Surcharge_Detailed_Report',
 #       'p14u10_Solution7_Surcharge_Summary_Report', 'p14u10_Solution7_Surcharge_Detailed_Report']]))
-output = generate_html_response_surcharge(
-    [['lateral pressure calculator - Output Summary', 'Final Solution Alternatives'], [2, 'lateral pressure'],
-     ['P (psf)', 'Z (ft)'], ['ft', 'psf'],
-     [[89.42, 5], [66.27, 4], [2126.9, 4], [67.41, 3], [2349.995621020485, 4.157602527676236]],
-     ['p25u44_Solution1_Surcharge_Summary_Report', 'p25u44_Solution1_Surcharge_Detailed_Report',
-      'p25u44_Solution2_Surcharge_Summary_Report', 'p25u44_Solution2_Surcharge_Detailed_Report',
-      'p25u44_Solution3_Surcharge_Summary_Report', 'p25u44_Solution3_Surcharge_Detailed_Report',
-      'p25u44_Solution4_Surcharge_Summary_Report', 'p25u44_Solution4_Surcharge_Detailed_Report',
-      'p25u44_Solution5_Surcharge_Summary_Report', 'p25u44_Solution5_Surcharge_Detailed_Report']]
-    )
+output = generate_html_response_surcharge([['H = 10', 'q = 4000.0', 'L1 = 4', 'L2 = 5'],
+                                           ['H = 10', 'q = 123.0', 'L1 = 4'],
+                                           ['H = 10', 'q = 111.0', 'L1 = 2', 'L2 = 3']], [
+                                              ['lateral pressure calculator - Output Summary',
+                                               'Final Solution Alternatives'], [3, 'lateral pressure'],
+                                              ['Inputs', 'Pr (psf)', 'Zr (ft)'], ['ft', 'psf'],
+                                              [[66.27, 3.92], [2126.9, 4.18], [67.41, 2.88], [2260.58, 4.13]],
+                                              ['p25u44_Solution1_Surcharge_Summary_Report',
+                                               'p25u44_Solution1_Surcharge_Detailed_Report',
+                                               'p25u44_Solution2_Surcharge_Summary_Report',
+                                               'p25u44_Solution2_Surcharge_Detailed_Report',
+                                               'p25u44_Solution3_Surcharge_Summary_Report',
+                                               'p25u44_Solution3_Surcharge_Detailed_Report',
+                                               'p25u44_Solution4_Surcharge_Summary_Report',
+                                               'p25u44_Solution4_Surcharge_Detailed_Report']]
+
+                                          )
+# print(b)
 b = open("finaloutputkjhjh.html", "a")
 b.write(output)
 b.close()

@@ -80,8 +80,8 @@ input_values = {
     'data': {'Load Properties': {'H': {'value': '10', 'unit': 'ft'}, 'Δh': {'value': '0.01', 'unit': None},
                                  'Load Type': {
                                      'value': '{"id":1237,"item":"Point Load","section_product_item":"37_84"}',
-                                     'unit': None}, 'q': {'value': '1500', 'unit': None},
-                                 'L1': {'value': '5', 'unit': 'ft'}, 'Ɵ': {'value': '0', 'unit': None}, 'Load Type ': {
+                                     'unit': None}, 'q': {'value': '0', 'unit': None},
+                                 'L1': {'value': '0', 'unit': 'ft'}, 'Ɵ': {'value': '0', 'unit': None}, 'Load Type ': {
             'value': '{"id":1243,"item":"Strip Load","section_product_item":"37_84"}', 'unit': None},
                                  'q ': {'value': '4000', 'unit': None}, 'L1 ': {'value': '4', 'unit': 'ft'},
                                  'L2 ': {'value': '5', 'unit': 'ft'}, 'Load Type  ': {
