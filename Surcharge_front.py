@@ -126,7 +126,7 @@ def generate_html_response_surcharge(inputs, output):
 			<tbody>
 				<tr>
 					<td style="width: 7%;"><t1b>Download Reports:</t1b></td>
-					<td style="width: 7%;"><a href="http://civision.balafan.com:8010/report/BFP/"""
+					<td style="width: 7%;"><a href="http://civision.balafan.com:8010/report/Surcharge/"""
 
         t4 = """
           " target="_blank" ><img height = "20px"src="http://civision.balafan.com:8010/icon/PDF_Summary"></a></td>
@@ -208,11 +208,8 @@ def generate_html_response_surcharge(inputs, output):
                 s = s + t1_final + t2
             else:
                 s = s + t1 + str(k + 1) + t2
-            # try:
-            s = s + t3 + output[5][2 * k] + t5 + m1
-            # except:
-            #     s = s + t3 + str(output[5][0]) + \
-            #         t4 + str(output[5][1]) + t5 + m1
+            # _1 --> single project
+            s = s + t3 + output[5][2 * k] + "_1" + t5 + m1
 
             c1 = 0
             c2 = 0
@@ -1185,20 +1182,20 @@ def generate_html_response_BFP_multi_no_solution(output, project_num):
 #       'p14u10_Solution6_Surcharge_Summary_Report', 'p14u10_Solution6_Surcharge_Detailed_Report',
 #       'p14u10_Solution7_Surcharge_Summary_Report', 'p14u10_Solution7_Surcharge_Detailed_Report']]))
 output = generate_html_response_surcharge([['H = 10', 'q = 4000.0', 'L1 = 4', 'L2 = 5'],
-                                           ['H = 10', 'q = 123.0', 'L1 = 4'],
-                                           ['H = 10', 'q = 111.0', 'L1 = 2', 'L2 = 3']], [
-                                              ['lateral pressure calculator - Output Summary',
-                                               'Final Solution Alternatives'], [3, 'lateral pressure'],
-                                              ['Inputs', 'Pr (psf)', 'Zr (ft)'], ['ft', 'psf'],
-                                              [[66.27, 3.92], [2126.9, 4.18], [67.41, 2.88], [2260.58, 4.13]],
-                                              ['p25u44_Solution1_Surcharge_Summary_Report',
-                                               'p25u44_Solution1_Surcharge_Detailed_Report',
-                                               'p25u44_Solution2_Surcharge_Summary_Report',
-                                               'p25u44_Solution2_Surcharge_Detailed_Report',
-                                               'p25u44_Solution3_Surcharge_Summary_Report',
-                                               'p25u44_Solution3_Surcharge_Detailed_Report',
-                                               'p25u44_Solution4_Surcharge_Summary_Report',
-                                               'p25u44_Solution4_Surcharge_Detailed_Report']]
+                                            ['H = 10', 'q = 123.0', 'L1 = 4'],
+                                            ['H = 10', 'q = 111.0', 'L1 = 2', 'L2 = 3']], [
+                                               ['lateral pressure calculator - Output Summary',
+                                                'Final Solution Alternatives'], [3, 'lateral pressure'],
+                                               ['Inputs', 'Pr (psf)', 'Zr (ft)'], ['ft', 'psf'],
+                                               [[66.27, 3.92], [2126.9, 4.18], [67.41, 2.88], [2260.58, 4.13]],
+                                               ['p25u44_Solution1_Surcharge_Summary_Report',
+                                                'p25u44_Solution1_Surcharge_Detailed_Report',
+                                                'p25u44_Solution2_Surcharge_Summary_Report',
+                                                'p25u44_Solution2_Surcharge_Detailed_Report',
+                                                'p25u44_Solution3_Surcharge_Summary_Report',
+                                                'p25u44_Solution3_Surcharge_Detailed_Report',
+                                                'p25u44_Solution4_Surcharge_Summary_Report',
+                                                'p25u44_Solution4_Surcharge_Detailed_Report']]
 
                                           )
 # print(b)
