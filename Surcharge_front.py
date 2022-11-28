@@ -76,6 +76,9 @@ def generate_html_response_surcharge(inputs, output):
     tbody_end = "</tbody>"
     hr = "<hr>"
     tr = "<tr>"
+    tr_height_92 = '<tr height="92.4">'
+    tr_height_115 = '<tr height="115.5">'
+    tr = "<tr>"
     tr_end = "</tr>"
     th = "<th>"
     th_end = "</th>"
@@ -171,7 +174,7 @@ def generate_html_response_surcharge(inputs, output):
           """
 
         h8 = """
-        <td style="width: 17.5%;text-align: center; vertical-align: middle" ><t2>
+        <td style="width: 23.33%;text-align: center; vertical-align: middle" ><t2>
         """
         h8_3 = """
                 <td rowspan="2" ,style="width: 30%;text-align: center;"><t2>
@@ -181,7 +184,6 @@ def generate_html_response_surcharge(inputs, output):
         """
 
         s = ""
-        print(range(len(output[4])))
         for k in range(len(output[4])):
 
             # control number of row
@@ -194,10 +196,11 @@ def generate_html_response_surcharge(inputs, output):
                 all_row = 5
                 row = 4
             h8_1 = f"""
-                            <td rowspan="{all_row}" ,style="width: 30%;text-align: center;"><t2>
+                            <td style="width: 30%;text-align: center; vertical-align: middle", rowspan="{all_row}" ><t2>
                             """
+
             h8_2 = f"""
-                            <td rowspan="{row}" ,style="width: 17.5%;text-align: center; vertical-align: middle" ><t2>
+                            <td style="width: 23.33%;text-align: center; vertical-align: middle", rowspan="{row}"  ><t2>
                             """
 
             # Table Header - Solution Number
@@ -219,12 +222,18 @@ def generate_html_response_surcharge(inputs, output):
             for i in range(0, int(len(output[1]))):
                 if i % 2 == 0:
                     s = s + h1 + str(output[1][i + 1]) + h2 + h3
-                    s += tr
+                    if k != len(output[4]) - 1:
+                        if len(inputs[k]) == 4:
+                            s += tr_height_92
+                        else:
+                            s += tr_height_115
+                    else:
+                        s += tr
                     for j in range(output[1][i]):
                         s = s + h8 + output[2][c1] + h9
-                        if c1 == 1 and k != len(output[4]) - 1:
+                        if c1 == 2 and k != len(output[4]) - 1:
                             s = s + h8_1 + plots[k] + h9
-                        if k == len(output[4]) - 1:
+                        if c1 == 2 and k == len(output[4]) - 1:
                             s = s + h8_3 + plots[k] + h9
                         c1 = c1 + 1
                     s += tr_end
@@ -233,9 +242,10 @@ def generate_html_response_surcharge(inputs, output):
                         for j in range(output[1][i]):
                             if j == 0:
                                 s = s + tr
-                                s = s + """<td rowspan="2" ,style="width: 30%;text-align: center;"><t2> </t2></td>"""  # result has no input actually!
-                            s = s + h8_2 + str(output[4][k][c3]) + h9
-                            c3 = c3 + 1
+                                s = s + f"""<td style="width: 23.33%;text-align: center; vertical-align: middle"><t2>{len(output[4]) - 1} above loads </t2></td>"""  # result has no input actually!
+                            else:
+                                s = s + h8_2 + str(output[4][k][c3]) + h9
+                                c3 = c3 + 1
 
                         s += tr_end
                     else:
@@ -243,11 +253,16 @@ def generate_html_response_surcharge(inputs, output):
 
                         for input_number in inputs[k]:
                             col_number = 1
+                            if k != len(output[4]) - 1:
+                                if len(inputs[k]) == 4:
+                                    s += tr_height_92
+                                else:
+                                    s += tr_height_115
+                            else:
+                                s += tr
+                            s = s + h8 + str(input_number) + h9
                             for j in range(output[1][i]):
-                                if j == 0:
-                                    s = s + tr
-                                s = s + h8 + str(input_number) + h9
-                                if row_number == 1 and col_number == 2:
+                                if row_number == 1 and col_number in [2, 3]:
                                     s = s + h8_2 + str(output[4][k][c3]) + h9
                                     c3 = c3 + 1
 
