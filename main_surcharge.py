@@ -3,6 +3,7 @@ from surchargeLoad import surcharge
 import scipy.integrate as spi
 from plot import plotter2
 from output import output, output_noSolution
+from report import report, item_receiver
 
 import numpy as np
 import json
@@ -168,9 +169,13 @@ def surcharge_calculator(input_values):
     result_plot = plotter2(unit_system, h, sum_sigma_h, depth_list, lateral_pressure, centroid)
     plots.append(result_plot)
 
-    inputs = [h, load_type_all, q_all, l1_all, l2_all, teta_all]
-    inputs, Output = output(product_id, user_id, inputs, solution, sum_sigma_h, depth_array, lateral_pressure, centroid, unit_system,
-                    plots)
+    inputs_1 = [h, load_type_all, q_all, l1_all, l2_all, teta_all]
+    inputs, Output = output(product_id, user_id, inputs_1, solution, sum_sigma_h, depth_array, lateral_pressure,
+                            centroid, unit_system,
+                            plots)
+    variables, html_temp_list, file_name_list = report("single", product_id, user_id, inputs_1, Output)
+    item_receiver(variables, html_temp_list, file_name_list)
+
     return inputs, Output
 
 
