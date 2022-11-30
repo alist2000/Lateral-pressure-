@@ -26,8 +26,8 @@ def report(project_type, product_id, user_id, inputs, output):
                         "L1": l1[i],
                         "&#xc6;&#x9f;": teta[i],
                         # outputs
-                        "Pr": output[i][4][0],
-                        "Zr": output[i][4][1],
+                        "Pr": output[4][i][0],
+                        "Zr": output[4][i][1],
                         "excel_name": "name of excel that I should  create."
 
                     }
@@ -70,14 +70,14 @@ def report(project_type, product_id, user_id, inputs, output):
                 i += 1
 
             # for result
-            html_temp_root = "/report/" + html_temp[2]
+            html_temp_root = "/report/" + html_temp[4]
             report_values = {
                 # inputs:
                 "H": h,
-                "load_number" : len(output[4]) - 1,
+                "load_number": len(output[4]) - 1,
                 # outputs
-                "Pr": output[-1][4][0],
-                "Zr": output[-1][4][1],
+                "Pr": output[4][-1][0],
+                "Zr": output[4][-1][1],
                 "excel_name": "name of excel that I should  create."
             }
             variables.append(report_values)
@@ -85,10 +85,12 @@ def report(project_type, product_id, user_id, inputs, output):
             file_name = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
                 i + 1) + "_SurchargeLoad_Report.pdf"
             file_name_list.append(file_name)
+            # create_pdf_report(html_temp_root, report_values, file_name)
         else:
             pass  # must be developed for multi project
 
         return variables, html_temp_list, file_name_list
+
 
 """
 A HTML page is generated from a template and rendered as a local PDF file.
@@ -96,6 +98,7 @@ A HTML page is generated from a template and rendered as a local PDF file.
 
 # from weasyprint import HTML
 from jinja2 import Environment, FileSystemLoader
+
 
 ####################################################
 
@@ -119,7 +122,8 @@ def item_receiver(variable, html_temp_list, file_name_list):
     file_name_lists = file_name_list
     return None
 
-def choose_pdf_item(product_number: 1, pdf_number):
+
+def choose_pdf_item_surcharge(product_number: 1, pdf_number):
     pdf_number = int(pdf_number)
     product_number = int(product_number)
     pdf_number -= 1
