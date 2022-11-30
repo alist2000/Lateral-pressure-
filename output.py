@@ -74,6 +74,7 @@ def output(product_id, user_id, inputs, solution, sum_sigma_h, depth, lateral_pr
         plot.write_html(f"plot/output{i}.html",
                         full_html=False,
                         include_plotlyjs='cdn')
+        plot.write_image(f"plot/output{i}.png")
         i += 1
     return input_values, output
 
