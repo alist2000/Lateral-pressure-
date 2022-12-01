@@ -28,7 +28,8 @@ def report(project_type, product_id, user_id, inputs, output):
                         # outputs
                         "Pr": output[4][i][0],
                         "Zr": output[4][i][1],
-                        "excel_name": "name of excel that I should  create."
+                        "excel_name": "name of excel that I should  create.",
+                        "plot_address": "../plot/output" + str(i+1) + ".html"
 
                     }
                     variables.append(report_values)
@@ -43,7 +44,8 @@ def report(project_type, product_id, user_id, inputs, output):
                         # outputs
                         "Pr": output[4][i][0],
                         "Zr": output[4][i][1],
-                        "excel_name": "name of excel that I should  create."
+                        "excel_name": "name of excel that I should  create.",
+                        "plot_address": "../plot/output" + str(i + 1) + ".html"
 
                     }
                     variables.append(report_values)
@@ -59,8 +61,8 @@ def report(project_type, product_id, user_id, inputs, output):
                         # outputs
                         "Pr": output[4][i][0],
                         "Zr": output[4][i][1],
-                        "excel_name": "name of excel that I should  create."
-
+                        "excel_name": "name of excel that I should  create.",
+                        "plot_address": "../plot/output" + str(i + 1) + ".html"
                     }
                     variables.append(report_values)
                     html_temp_list.append(html_temp_root)
@@ -78,7 +80,8 @@ def report(project_type, product_id, user_id, inputs, output):
                 # outputs
                 "Pr": output[4][-1][0],
                 "Zr": output[4][-1][1],
-                "excel_name": "name of excel that I should  create."
+                "excel_name": "name of excel that I should  create.",
+                "plot_address": "../plot/output" + str(i + 1) + ".html"
             }
             variables.append(report_values)
             html_temp_list.append(html_temp_root)
