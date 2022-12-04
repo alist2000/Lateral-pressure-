@@ -278,8 +278,8 @@ a[href] {
 				<tr>
 					<td style="width: 25%;"><t1>Height:</t1></td>
 					<td style="width: 25%;"><t2>{{ H }}</t2></td>
-					<td style="width: 25%;"><t1>Δh:</t1></td>
-					<td style="width: 25%;"><t2>{{ Δh }}</t2></td>
+					<td style="width: 25%;"><t1>&#x394;h:</t1></td>
+					<td style="width: 25%;"><t2>{{ delta_h }}</t2></td>
 				</tr>
 				<tr>
 					<td style="width: 25%;"><t1>Load Type:</t1></td>
@@ -318,7 +318,7 @@ a[href] {
       <td style="width: 15%;"><t1>Z<sub>r</sub> :</t1></td>
       <td style="width: 15%;"><t2>{{ Zr }}</t2></td>
       <td style="width: 40%;"><t2> for download all values <a
-                href="http://civision.balafan.com:8010/report/Surchage/report/{{excel_name}}"
+                href= {{ excel_name }}
                 target="_blank"
                 >
                   Click here!
@@ -336,11 +336,12 @@ a[href] {
             </table>
 
             <table border="0" style="border-collapse: collapse; width: 100%;">
-                <tbody>
-                <div align="center">
-                    <iframe height="800" width="550"
-                            src={{ plot_address }} ></iframe>
-                </div>
+                <td style="width: 40%;"><t2> <a
+                href={{ plot_address }}
+                target="_blank"
+                >
+                  Click here!
+              </a></t2></td>
                 </tbody>
 
 
