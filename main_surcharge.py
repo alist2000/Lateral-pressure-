@@ -151,10 +151,13 @@ def surcharge_calculator(input_values):
         except:
             continue
 
+    # all sigma is a list and every index is a list of sigma for every load and final index is for sum
+    all_sigma = []
     for load_type in range(len(solution)):
         for load in range(len(solution[load_type])):
+            all_sigma.append(solution[load_type][load][2])
             sum_sigma_h += solution[load_type][load][2]
-
+    all_sigma.append(sum_sigma_h)
     # calculate total centroid. there are two method.
 
     # number one
@@ -187,9 +190,14 @@ def surcharge_calculator(input_values):
                 "client": client, "date": date, "comment": comment, "other": other,
                 "h": h, "delta_h": delta_h, "load_type": load_type_all, "q": q_all, "l1": l1_all,
                 "l2": l2_all, "teta": teta_all}
+
+
+
+
+
     variables, html_temp_list, file_name_list = report("single", product_id, user_id, inputs_2, Output)
 
-    item_receiver(variables, html_temp_list, file_name_list)
+    item_receiver(variables, html_temp_list, file_name_list, depth_list, all_sigma)
     create_pdf_report(html_temp_list[0], variables[0], file_name_list[0])
 
     return inputs, Output
