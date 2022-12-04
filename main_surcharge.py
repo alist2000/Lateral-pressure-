@@ -3,7 +3,7 @@ from surchargeLoad import surcharge
 import scipy.integrate as spi
 from plot import plotter2
 from output import output, output_noSolution
-from report import report, item_receiver
+from report import report, item_receiver, create_pdf_report
 
 import numpy as np
 import json
@@ -15,6 +15,15 @@ def surcharge_calculator(input_values):
     product_id = input_values.get("product_id")
     user_id = input_values.get("user_id")
     unit_system = input_values.get("information").get("unit")
+    title = input_values.get("information").get("title")
+    jobNo = input_values.get("information").get("jobNo")
+    designer = input_values.get("information").get("designer")
+    checker = input_values.get("information").get("checker")
+    company = input_values.get("information").get("company")
+    client = input_values.get("information").get("client")
+    date = input_values.get("information").get("date")
+    comment = input_values.get("information").get("comment")
+    other = input_values.get("information").get("other")
     h = input_values.get("data").get("Load Properties").get("H").get("value")
     delta_h = input_values.get("data").get("Load Properties").get("Δh").get("value")
     surchargeInstance = surcharge(unit_system, h, delta_h)
@@ -174,13 +183,19 @@ def surcharge_calculator(input_values):
     inputs, Output = output(product_id, user_id, inputs_1, solution, sum_sigma_h, depth_array, lateral_pressure,
                             centroid, unit_system,
                             plots)
-    variables, html_temp_list, file_name_list = report("single", product_id, user_id, inputs_1, Output)
+    inputs_2 = {"title": title, "jobNo": jobNo, "designer": designer, "checker": checker, "company": company,
+                "client": client, "date": date, "comment": comment, "other": other,
+                "h": h, "delta_h": delta_h, "load_type": load_type_all, "q": q_all, "l1": l1_all,
+                "l2": l2_all, "teta": teta_all}
+    variables, html_temp_list, file_name_list = report("single", product_id, user_id, inputs_2, Output)
+
     item_receiver(variables, html_temp_list, file_name_list)
+    create_pdf_report(html_temp_list[0], variables[0], file_name_list[0])
 
     return inputs, Output
 
 
-inputs,outputs = surcharge_calculator(input_values)
+inputs, outputs = surcharge_calculator(input_values)
 print(inputs)
 print(outputs)
 if inputs == 'No Solution':
