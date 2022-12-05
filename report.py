@@ -1,3 +1,4 @@
+import copy
 import datetime
 import xlsxwriter
 
@@ -53,8 +54,7 @@ def report(project_type, product_id, user_id, inputs, output):
                 report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
                     i + 1)
                 report_values["plot_address"] = "../plot/output" + str(i + 1) + ".png"
-                variables.append(report_values)
-                html_temp_list.append(html_temp_root)
+
             elif load == "Line Load":
                 html_temp_root = "/report/template/" + html_temp[2]
                 # inputs:
@@ -70,8 +70,7 @@ def report(project_type, product_id, user_id, inputs, output):
                     i + 1)
                 report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
 
-                variables.append(report_values)
-                html_temp_list.append(html_temp_root)
+
             elif load == "Strip Load":
                 html_temp_root = "/report/template/" + html_temp[3]
                 # inputs:
@@ -87,30 +86,31 @@ def report(project_type, product_id, user_id, inputs, output):
                 report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
                     i + 1)
                 report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
-                variables.append(report_values)
-                print(report_values)
-                html_temp_list.append(html_temp_root)
+            myvalues = copy.deepcopy(report_values)
+            variables.append(myvalues)
+            html_temp_list.append(html_temp_root)
             file_name = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
                 i + 1) + "_SurchargeLoad_Report.pdf"
             file_name_list.append(file_name)
             i += 1
-            if len(load_types) > 1:
-                # for result
-                html_temp_root = "/report/template/" + html_temp[4]
-                # inputs:
-                report_values["H"] = h
-                report_values["load_number"] = len(output[4]) - 1
-                # outputs
-                report_values["Pr"] = output[4][-1][0]
-                report_values["Zr"] = output[4][-1][1]
-                report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(i + 1)
-                report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
-                variables.append(report_values)
-                html_temp_list.append(html_temp_root)
-                file_name = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
-                    i + 1) + "_SurchargeLoad_Report.pdf"
-                file_name_list.append(file_name)
-                # create_pdf_report(html_temp_root, report_values, file_name)
+        if len(load_types) > 1:
+            # for result
+            html_temp_root = "/report/template/" + html_temp[4]
+            # inputs:
+            report_values["H"] = h
+            report_values["load_number"] = len(output[4]) - 1
+            # outputs
+            report_values["Pr"] = output[4][-1][0]
+            report_values["Zr"] = output[4][-1][1]
+            report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
+                i + 1)
+            report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
+            variables.append(report_values)
+            html_temp_list.append(html_temp_root)
+            file_name = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
+                i + 1) + "_SurchargeLoad_Report.pdf"
+            file_name_list.append(file_name)
+            # create_pdf_report(html_temp_root, report_values, file_name)
     else:
         pass  # must be developed for multi project
 
@@ -129,66 +129,44 @@ from jinja2 import Environment, FileSystemLoader
 
 # Loading and filling the template
 
-def create_pdf_report(html_temp_file, template_vars, pdf_name):
-    env = Environment(loader=FileSystemLoader('.'))
-    template = env.get_template(html_temp_file)
-    html_filled = template.render(template_vars)
-    file = open(pdf_name + ".html", "a")
-    file.write(html_filled)
-    file.close()
-    HTML(string=html_filled, base_url=__file__).write_pdf(pdf_name)
+def create_html_report(html_temp_files, template_vars, pdf_names):
+    for i in range(len(html_temp_files)):
+        html_temp_file = html_temp_files[i]
+        template_var = template_vars[i]
+        pdf_name = pdf_names[i]
+        env = Environment(loader=FileSystemLoader('.'))
+        template = env.get_template(html_temp_file)
+        html_filled = template.render(template_var)
+        file = open("report/" + pdf_name[:-4] + ".html", "w")
+        file.write(html_filled)
+        file.close()
 
 
 ####################################################
 
+import pandas as pd
+import pyarrow.feather as feather
+
 
 # creating excel
-def create_excel(depth, sigma, excel_name):
-    file = xlsxwriter.Workbook("/app/app/Surcharge/report/excel/" + excel_name + ".csv")
-    worksheet = file.add_worksheet()
-    row = 0
-    for z in depth:
-        worksheet.write(row, 0, z)
-        row += 1
-    row = 0
-    for sigmah in sigma:
-        worksheet.write(row, 1, sigmah)
+def create_feather(depth, sigma, excel_name):
+    print(len(depth))
+    print(len(sigma))
+    data = list(zip(depth, sigma))
+    print(data)
+    df = pd.DataFrame(data, columns=["Z", "Ϭh"])
+    df.to_feather("report/excel/" + excel_name + ".feather")
+
+
+def choose_and_create_pdf(file_name):
+    file = open("report/" + file_name, "r")
+    html_filled = file.read()
+    # file_name is a name with .html suffix it must be replaced with .pdf
+    pdf_name = file.name[:-5] + ".pdf"
     file.close()
-    return None
+    HTML(string=html_filled, base_url=__file__).write_pdf(pdf_name)
 
 
-def item_receiver(variable, html_temp_list, file_name_list, depth, sigma):
-    global variables
-    global html_temp_lists
-    global file_name_lists
-    global depth_list
-    global sigma_list
-    variables = variable
-    html_temp_lists = html_temp_list
-    file_name_lists = file_name_list
-    file_name_lists = file_name_list
-    depth_list = depth
-    sigma_list = sigma
-    return None
-
-
-def choose_pdf_item_surcharge(product_number: 1, pdf_number):
-    pdf_number = int(pdf_number)
-    product_number = int(product_number)
-    pdf_number -= 1
-    product_number -= 1
-    create_pdf_report(html_temp_lists[pdf_number],
-                      variables[pdf_number],
-                      file_name_lists[pdf_number])
-    return None
-
-
-def choose_excel(product_number: 1, pdf_number):
-    pdf_number = int(pdf_number)
-    product_number = int(product_number)
-    pdf_number -= 1
-    product_number -= 1
-    create_excel(depth_list,
-                 sigma_list[pdf_number],
-                 "excel" + str(pdf_number))
+def choose_and_create_excel(file_name):
+    """read feather file and create excel"""
     return None
