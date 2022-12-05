@@ -1,10 +1,10 @@
 from input import input_values
 from surchargeLoad import surcharge
-import scipy.integrate as spi
 from plot import plotter2
 from output import output, output_noSolution
-from report import report, item_receiver, create_pdf_report
+from report import report, create_html_report, choose_and_create_pdf, create_feather
 
+import scipy.integrate as spi
 import numpy as np
 import json
 
@@ -152,12 +152,15 @@ def surcharge_calculator(input_values):
             continue
 
     # all sigma is a list and every index is a list of sigma for every load and final index is for sum
-    all_sigma = []
+    excel = 1
     for load_type in range(len(solution)):
         for load in range(len(solution[load_type])):
-            all_sigma.append(solution[load_type][load][2])
             sum_sigma_h += solution[load_type][load][2]
-    all_sigma.append(sum_sigma_h)
+            create_feather(depth_list, solution[load_type][load][2], "excel" + str(excel))
+            excel += 1
+
+    create_feather(depth_list, sum_sigma_h, "excel" + str(excel))
+
     # calculate total centroid. there are two method.
 
     # number one
@@ -191,14 +194,8 @@ def surcharge_calculator(input_values):
                 "h": h, "delta_h": delta_h, "load_type": load_type_all, "q": q_all, "l1": l1_all,
                 "l2": l2_all, "teta": teta_all}
 
-
-
-
-
     variables, html_temp_list, file_name_list = report("single", product_id, user_id, inputs_2, Output)
-
-    item_receiver(variables, html_temp_list, file_name_list, depth_list, all_sigma)
-    create_pdf_report(html_temp_list[0], variables[0], file_name_list[0])
+    create_html_report(html_temp_list, variables, file_name_list)
 
     return inputs, Output
 
