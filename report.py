@@ -37,82 +37,80 @@ def report(project_type, product_id, user_id, inputs, output):
                      "company": company, "analysis_date": date, "comments": comment}
     if project_type == "single":
         #  for loads
-        if len(load_types) > 1:
-            for load in load_types:
-                if load == "Point Load":
-                    html_temp_root = "/report/" + html_temp[1]
-                    # inputs:
-                    report_values["H"] = h
-                    report_values["delta_h"] = delta_h
-                    report_values["Load_Type"] = load
-                    report_values["q"] = q[i]
-                    report_values["L1"] = l1[i]
-                    report_values["teta"] = teta[i]
-                    # outputs
-                    report_values["Pr"] = output[4][i][0]
-                    report_values["Zr"] = output[4][i][1]
-                    report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
-                        i + 1)
-                    report_values["plot_address"] = "../plot/output" + str(i + 1) + ".png"
-                    variables.append(report_values)
-                    html_temp_list.append(html_temp_root)
-                elif load == "Line Load":
-                    html_temp_root = "/report/" + html_temp[2]
-                    # inputs:
-                    report_values["H"] = h
-                    report_values["delta_h"] = delta_h
-                    report_values["Load_Type"] = load
-                    report_values["q"] = q[i]
-                    report_values["L1"] = l1[i]
-                    # outputs
-                    report_values["Pr"] = output[4][i][0]
-                    report_values["Zr"] = output[4][i][1]
-                    report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
-                        i + 1)
-                    report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
+        for load in load_types:
+            if load == "Point Load":
+                html_temp_root = "/report/template/" + html_temp[1]
+                # inputs:
+                report_values["H"] = h
+                report_values["delta_h"] = delta_h
+                report_values["Load_Type"] = load
+                report_values["q"] = q[i]
+                report_values["L1"] = l1[i]
+                report_values["teta"] = teta[i]
+                # outputs
+                report_values["Pr"] = output[4][i][0]
+                report_values["Zr"] = output[4][i][1]
+                report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
+                    i + 1)
+                report_values["plot_address"] = "../plot/output" + str(i + 1) + ".png"
+                variables.append(report_values)
+                html_temp_list.append(html_temp_root)
+            elif load == "Line Load":
+                html_temp_root = "/report/template/" + html_temp[2]
+                # inputs:
+                report_values["H"] = h
+                report_values["delta_h"] = delta_h
+                report_values["Load_Type"] = load
+                report_values["q"] = q[i]
+                report_values["L1"] = l1[i]
+                # outputs
+                report_values["Pr"] = output[4][i][0]
+                report_values["Zr"] = output[4][i][1]
+                report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
+                    i + 1)
+                report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
 
-                    variables.append(report_values)
-                    html_temp_list.append(html_temp_root)
-                elif load == "Strip Load":
-                    html_temp_root = "/report/" + html_temp[3]
-                    # inputs:
-                    report_values["H"] = h
-                    report_values["delta_h"] = delta_h
-                    report_values["Load_Type"] = load
-                    report_values["q"] = q[i]
-                    report_values["L1"] = l1[i]
-                    report_values["L2"] = l2[i]
-                    # outputs
-                    report_values["Pr"] = output[4][i][0]
-                    report_values["Zr"] = output[4][i][1]
-                    report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
-                        i + 1)
-                    report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
-                    variables.append(report_values)
-                    print(report_values)
-                    html_temp_list.append(html_temp_root)
-        file_name = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
-            i + 1) + "_SurchargeLoad_Report.pdf"
-        file_name_list.append(file_name)
-        i += 1
-
-        # for result
-        html_temp_root = "/report/" + html_temp[4]
-        # inputs:
-        report_values["H"] = h,
-        report_values["load_number"] = len(output[4]) - 1,
-        # outputs
-        report_values["Pr"] = output[4][-1][0],
-        report_values["Zr"] = output[4][-1][1],
-        report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(i + 1)
-        report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
-        variables.append(report_values)
-        html_temp_list.append(html_temp_root)
-        file_name = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
-            i + 1) + "_SurchargeLoad_Report.pdf"
-        file_name_list.append(file_name)
-        # create_pdf_report(html_temp_root, report_values, file_name)
-
+                variables.append(report_values)
+                html_temp_list.append(html_temp_root)
+            elif load == "Strip Load":
+                html_temp_root = "/report/template/" + html_temp[3]
+                # inputs:
+                report_values["H"] = h
+                report_values["delta_h"] = delta_h
+                report_values["Load_Type"] = load
+                report_values["q"] = q[i]
+                report_values["L1"] = l1[i]
+                report_values["L2"] = l2[i]
+                # outputs
+                report_values["Pr"] = output[4][i][0]
+                report_values["Zr"] = output[4][i][1]
+                report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(
+                    i + 1)
+                report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
+                variables.append(report_values)
+                print(report_values)
+                html_temp_list.append(html_temp_root)
+            file_name = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
+                i + 1) + "_SurchargeLoad_Report.pdf"
+            file_name_list.append(file_name)
+            i += 1
+            if len(load_types) > 1:
+                # for result
+                html_temp_root = "/report/template/" + html_temp[4]
+                # inputs:
+                report_values["H"] = h
+                report_values["load_number"] = len(output[4]) - 1
+                # outputs
+                report_values["Pr"] = output[4][-1][0]
+                report_values["Zr"] = output[4][-1][1]
+                report_values["excel_name"] = "http://civision.balafan.com:8010/report/Surchage/excel/excel" + str(i + 1)
+                report_values["plot_address"] = "../plot/output" + str(i + 1) + ".html"
+                variables.append(report_values)
+                html_temp_list.append(html_temp_root)
+                file_name = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
+                    i + 1) + "_SurchargeLoad_Report.pdf"
+                file_name_list.append(file_name)
+                # create_pdf_report(html_temp_root, report_values, file_name)
     else:
         pass  # must be developed for multi project
 
@@ -135,6 +133,9 @@ def create_pdf_report(html_temp_file, template_vars, pdf_name):
     env = Environment(loader=FileSystemLoader('.'))
     template = env.get_template(html_temp_file)
     html_filled = template.render(template_vars)
+    file = open(pdf_name + ".html", "a")
+    file.write(html_filled)
+    file.close()
     HTML(string=html_filled, base_url=__file__).write_pdf(pdf_name)
 
 
