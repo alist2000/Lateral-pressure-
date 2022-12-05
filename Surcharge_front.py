@@ -1199,9 +1199,7 @@ output = generate_html_response_surcharge([['H = 10', 'q = 4000.0', 'L1 = 4', 'L
 
                                           )
 # print(b)
-b = open("finaloutputkjhjh.html", "a")
-b.write(output)
-b.close()
+
 
 # print(generate_html_response_surcharge_no_solution(
 #     [['lateral pressure calculator - Output Summary', 'Final Solution Alternatives'], [3, 'Error!'],
