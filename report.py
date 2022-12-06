@@ -168,5 +168,7 @@ def choose_and_create_pdf(file_name):
 
 
 def choose_and_create_excel(file_name):
-    """read feather file and create excel"""
+    # file name must be a string with style like this "excelname" + number of project
+    data = pd.read_feather("report/excel/" + file_name + ".feather")
+    data.to_csv("report/excel/" + file_name + ".csv")
     return None
