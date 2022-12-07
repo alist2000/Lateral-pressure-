@@ -209,3 +209,19 @@ print(inputs)
 print(outputs)
 if inputs == 'No Solution':
     print("No Solution")
+
+
+def inputs_multi(input_values):
+    product_id = input_values.get("product_id")
+    user_id = input_values.get("user_id")
+    number_of_project = input_values.get("number_of_projects")
+    unit_system = input_values.get("information").get("unit")
+    title = input_values.get("information").get("title")
+    jobNo = input_values.get("information").get("jobNo")
+    designer = input_values.get("information").get("designer")
+    checker = input_values.get("information").get("checker")
+    company = input_values.get("information").get("company")
+    client = input_values.get("information").get("client")
+    date = input_values.get("information").get("date")
+    comment = input_values.get("information").get("comment")
+    other = input_values.get("information").get("other")
