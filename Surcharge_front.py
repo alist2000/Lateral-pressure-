@@ -1,4 +1,4 @@
-max_number_of_loads = 4  # this value can be changed according to site inputs
+max_number_of_loads = 8  # this value can be changed according to site inputs
 plots = []
 for i in range(max_number_of_loads + 1):
     try:
@@ -185,7 +185,7 @@ def generate_html_response_surcharge(inputs, output):
 
         s = ""
         for k in range(len(output[4])):
-
+            # ATTENTION : if len output 4 equal to one it means we have just one load.
             # control number of row
             # if load type = line load we have 4 rows ( title , h, q, l) else 5 ( title, h, q, l1, l2 or teta) --> all rows
             # max row = 4 except title row
@@ -209,7 +209,7 @@ def generate_html_response_surcharge(inputs, output):
             else:
                 s = s + t1 + str(k + 1) + t2
             # _1 --> single project
-            s = s + t3 + output[5][2 * k] + "_1" + t5 + m1
+            s = s + t3 + output[5][2 * k] + t5 + m1
 
             c1 = 0
             c2 = 0
@@ -219,7 +219,7 @@ def generate_html_response_surcharge(inputs, output):
             for i in range(0, int(len(output[1]))):
                 if i % 2 == 0:
                     s = s + h1 + str(output[1][i + 1]) + h2 + h3
-                    if k != len(output[4]) - 1:
+                    if k != len(output[4]) - 1 or len(output[4]) == 1:
                         if len(inputs[k]) == 4:
                             s += tr_height_92
                         else:
@@ -228,14 +228,14 @@ def generate_html_response_surcharge(inputs, output):
                         s += tr
                     for j in range(output[1][i]):
                         s = s + h8 + output[2][c1] + h9
-                        if c1 == 2 and k != len(output[4]) - 1:
+                        if c1 == 2 and (k != len(output[4]) - 1 or len(output[4]) == 1):
                             s = s + h8_1 + plots[k] + h9
-                        if c1 == 2 and k == len(output[4]) - 1:
+                        if c1 == 2 and k == len(output[4]) - 1 and len(output[4]) != 1:
                             s = s + h8_3 + plots[k] + h9
                         c1 = c1 + 1
                     s += tr_end
 
-                    if k == len(output[4]) - 1:  # result
+                    if k == len(output[4]) - 1 and len(output[4]) != 1:  # result
                         for j in range(output[1][i]):
                             if j == 0:
                                 s = s + tr
@@ -250,7 +250,7 @@ def generate_html_response_surcharge(inputs, output):
 
                         for input_number in inputs[k]:
                             col_number = 1
-                            if k != len(output[4]) - 1:
+                            if k != len(output[4]) - 1 or len(output[4]) == 1:
                                 if len(inputs[k]) == 4:
                                     s += tr_height_92
                                 else:
@@ -1181,23 +1181,29 @@ def generate_html_response_BFP_multi_no_solution(output, project_num):
 #       'p14u10_Solution5_Surcharge_Summary_Report', 'p14u10_Solution5_Surcharge_Detailed_Report',
 #       'p14u10_Solution6_Surcharge_Summary_Report', 'p14u10_Solution6_Surcharge_Detailed_Report',
 #       'p14u10_Solution7_Surcharge_Summary_Report', 'p14u10_Solution7_Surcharge_Detailed_Report']]))
-output = generate_html_response_surcharge([['H = 10', 'q = 4000.0', 'L1 = 4', 'L2 = 5'],
-                                            ['H = 10', 'q = 123.0', 'L1 = 4'],
-                                            ['H = 10', 'q = 111.0', 'L1 = 2', 'L2 = 3']], [
-                                               ['lateral pressure calculator - Output Summary',
-                                                'Final Solution Alternatives'], [3, 'lateral pressure'],
-                                               ['Inputs', 'Pr (psf)', 'Zr (ft)'], ['ft', 'psf'],
-                                               [[66.27, 3.92], [2126.9, 4.18], [67.41, 2.88], [2260.58, 4.13]],
-                                               ['p25u44_Solution1_Surcharge_Summary_Report',
-                                                'p25u44_Solution1_Surcharge_Detailed_Report',
-                                                'p25u44_Solution2_Surcharge_Summary_Report',
-                                                'p25u44_Solution2_Surcharge_Detailed_Report',
-                                                'p25u44_Solution3_Surcharge_Summary_Report',
-                                                'p25u44_Solution3_Surcharge_Detailed_Report',
-                                                'p25u44_Solution4_Surcharge_Summary_Report',
-                                                'p25u44_Solution4_Surcharge_Detailed_Report']]
+output = generate_html_response_surcharge(
+    [['H = 10', 'q = 2000.0', 'L1 = 6', 'Ɵ = 0'], ['H = 10', 'q = 1000.0', 'L1 = 3', 'Ɵ = 45'],
+     ['H = 10', 'q = 200.0', 'L1 = 6'], ['H = 10', 'q = 150.0', 'L1 = 3', 'L2 = 4'],
+     ['H = 10', 'q = 250.0', 'L1 = 3', 'Ɵ = 0']]
+    , [
+        ['lateral pressure calculator - Output Summary',
+         'Final Solution Alternatives'], [3, 'lateral pressure'],
+        ['Inputs', 'Pr (psf)', 'Zr (ft)'], ['ft', 'psf'],
+        [[91.3, 5.24], [33.22, 4.13], [19.69, 4.13], [94.12, 4.81], [85.67, 3.61],
+         [323.99, 4.5]], ['p25u44_Solution1_SurchargeLoad_Report',
+                          'p25u44_Solution1_SurchargeLoad_Report',
+                          'p25u44_Solution2_SurchargeLoad_Report',
+                          'p25u44_Solution2_SurchargeLoad_Report',
+                          'p25u44_Solution3_SurchargeLoad_Report',
+                          'p25u44_Solution3_SurchargeLoad_Report',
+                          'p25u44_Solution4_SurchargeLoad_Report',
+                          'p25u44_Solution4_SurchargeLoad_Report',
+                          'p25u44_Solution5_SurchargeLoad_Report',
+                          'p25u44_Solution5_SurchargeLoad_Report',
+                          'p25u44_Solution6_SurchargeLoad_Report',
+                          'p25u44_Solution6_SurchargeLoad_Report']]
 
-                                          )
+)
 # print(b)
 
 
