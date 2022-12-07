@@ -127,7 +127,7 @@ input_values_old3 = {
     'number_of_projects': 1}
 
 # 5dec
-input_values = {
+input_values_ = {
     'information': {'title': '1', 'jobNo': '1', 'designer': '1', 'checker': '1', 'company': '1', 'client': '1',
                     'unit': 'us', 'date': None, 'comment': None, 'other': None}, 'product_id': 25, 'user_id': 44,
     'data': {'Load Properties': {'H': {'value': '10', 'unit': 'ft'}, 'Δh': {'value': '0.1', 'unit': None},
@@ -145,3 +145,31 @@ input_values = {
         'Load Type  ': {'value': '{"id":1286,"item":"No Load","section_product_item":"38_85"}', 'unit': None},
         'Load Type   ': {'value': '{"id":1291,"item":"No Load","section_product_item":"38_85"}', 'unit': None}}},
     'type': 1, 'number_of_projects': 1}
+
+# 7dec
+input_values = {
+    'information': {'title': '1', 'jobNo': '1', 'designer': '1', 'checker': '1', 'company': '1', 'client': '1',
+                    'unit': 'us', 'date': None, 'comment': None, 'other': None}, 'product_id': 25, 'user_id': 44,
+    'data': {'Load Properties': {'H': {'value': '10', 'unit': 'ft'}, 'Δh': {'value': '0.1', 'unit': None},
+                                 'Load Type': {
+                                     'value': '{"id":1237,"item":"Point Load","section_product_item":"37_84"}',
+                                     'unit': None}, 'q': {'value': '2000', 'unit': None},
+                                 'L1': {'value': '6', 'unit': 'ft'}, 'Ɵ': {'value': '0', 'unit': None}, 'Load Type ': {
+            'value': '{"id":1243,"item":"Point Load","section_product_item":"37_84"}', 'unit': None},
+                                 'q ': {'value': '1000', 'unit': None}, 'L1 ': {'value': '3', 'unit': 'ft'},
+                                 'Ɵ ': {'value': '45', 'unit': None}, 'Load Type  ': {
+            'value': '{"id":1248,"item":"Line Load","section_product_item":"37_84"}', 'unit': None},
+                                 'q  ': {'value': '200', 'unit': None}, 'L1  ': {'value': '6', 'unit': 'ft'},
+                                 'Load Type   ': {
+                                     'value': '{"id":1253,"item":"No Load","section_product_item":"37_84"}',
+                                     'unit': None}}, 'More Loads': {'q': {'value': '150', 'unit': None}, 'Load Type': {
+        'value': '{"id":1260,"item":"Strip Load","section_product_item":"38_85"}', 'unit': None},
+                                                                    'L1': {'value': '3', 'unit': 'ft'},
+                                                                    'L2': {'value': '4', 'unit': 'ft'}, 'Load Type ': {
+            'value': '{"id":1281,"item":"No Load","section_product_item":"38_85"}', 'unit': None}, 'Load Type  ': {
+            'value': '{"id":1286,"item":"No Load","section_product_item":"38_85"}', 'unit': None}, 'Load Type   ': {
+            'value': '{"id":1291,"item":"Point Load","section_product_item":"38_85"}', 'unit': None},
+                                                                    'q   ': {'value': '250', 'unit': None},
+                                                                    'L1   ': {'value': '3', 'unit': 'ft'},
+                                                                    'Ɵ   ': {'value': '0', 'unit': None}}}, 'type': 1,
+    'number_of_projects': 1}
