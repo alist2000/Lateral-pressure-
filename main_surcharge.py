@@ -136,6 +136,10 @@ def surcharge_calculator(input_values):
                 if status != "No error":
                     Output = output_noSolution(product_id, user_id, load[4])
                     return "No Solution", Output
+    # check error --> if there is no load problem can not solved!
+    if not q_all:
+        Output = output_noSolution(product_id, user_id, ["You must define at least one load!"])
+        return "No Solution", Output
 
     """ to drawing final sigma h - z plot we should sum all sigma h array of every load.
         for this result I create an array with length equal to length of sigma h array
