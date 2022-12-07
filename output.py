@@ -55,9 +55,9 @@ def output(product_id, user_id, inputs, solution, sum_sigma_h, depth, lateral_pr
     file_name = []
     for i in range(len(values)):
         filename_summary = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
-            i + 1) + "_Surcharge_Summary_Report"
+            i + 1) + "_SurchargeLoad_Report"
         filename_detail = "p" + str(product_id) + "u" + str(user_id) + "_" + "Solution" + str(
-            i + 1) + "_Surcharge_Detailed_Report"
+            i + 1) + "_SurchargeLoad_Report"
         file_name.append(filename_summary)
         file_name.append(filename_detail)
 
