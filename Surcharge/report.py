@@ -138,7 +138,7 @@ def create_html_report(html_temp_files, template_vars, pdf_names):
         html_temp_file = html_temp_files[i]
         template_var = template_vars[i]
         pdf_name = pdf_names[i]
-        env = Environment(loader=FileSystemLoader('.'))
+        env = Environment(loader=FileSystemLoader('..'))
         template = env.get_template(html_temp_file)
         html_filled = template.render(template_var)
         file = open("report/" + pdf_name[:-4] + ".html", "w")

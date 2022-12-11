@@ -132,7 +132,7 @@ from jinja2 import Environment, FileSystemLoader
 # Loading and filling the template
 
 def create_pdf_report(html_temp_file, template_vars, pdf_name):
-    env = Environment(loader=FileSystemLoader('.'))
+    env = Environment(loader=FileSystemLoader('..'))
     template = env.get_template(html_temp_file)
     html_filled = template.render(template_vars)
     HTML(string=html_filled, base_url=__file__).write_pdf(pdf_name)
