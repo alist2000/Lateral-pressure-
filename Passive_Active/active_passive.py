@@ -45,17 +45,25 @@ def pressure_calculator(unit_system, number_of_layer, theory, state, water, h, g
 
     # control for water layers. if any layer has water all after that has too.
     i = 0
+    h_water = 0
+    water_pressure = 0
     for waterlayer in water:
         if waterlayer == "Yes":
             for j in range(i, len(water)):
                 water[j] = "Yes"
+
+                # calculate h of water
+                h_water += h[j]
+
         i += 1
+
+    # calculate water pressure
+    water_pressure += h_water * gama_w[unit_system]
 
     # state = "active" or "passive"
     total_h = sum(h)
     k = []
     pressure = []
-    water_pressure = []
     number_of_coulomb = 0
     for i in range(number_of_layer):
         # if state = active , k --> ka and if state = passive , k --> kp
@@ -73,6 +81,8 @@ def pressure_calculator(unit_system, number_of_layer, theory, state, water, h, g
         # control gama
         if water[i] == "Yes":
             gama[i] = gama[i] - gama_w[unit_system]  # gama prime
+
+            # calculate water pressure
         sigma_h = []
         if i == 0:  # layer number one
             sigma_h.append(0)
@@ -89,16 +99,21 @@ def pressure_calculator(unit_system, number_of_layer, theory, state, water, h, g
         sigma_h.append(sigma)
 
         pressure.append(sigma_h)
-    return pressure
+    return pressure, water_pressure
 
 
-a = pressure_calculator(number_of_layer=1, h=[10], gama=[120], phi=[34], theory="Rankine", state="active",
-                        water=["No"], unit_system="us", beta=[0])
-b = pressure_calculator(number_of_layer=1, h=[23], gama=[125], phi=[36], theory="Coulomb", state="active",
-                        water=["No"], unit_system="us", beta=[0], omega=[0], delta=[24])
-d = pressure_calculator(number_of_layer=1, h=[23], gama=[125], phi=[36], theory="Coulomb", state="passive",
-                        water=["No"], unit_system="us", beta=[-32], omega=[0], delta=[24])
-c = pressure_calculator(number_of_layer=2, h=[10, 23], gama=[120, 125], phi=[34, 36], theory="Rankine",
-                        state="active", water=["No", "No"],
-                        unit_system="us", beta=[0, 0], omega=[0], delta=[24])
+test = pressure_calculator(number_of_layer=3, h=[4, 6, 20], gama=[130, 102.4, 102.4], phi=[37, 30, 30],
+                           theory="Rankine",
+                           state="active", water=["No", "No", "Yes"],
+                           unit_system="us", beta=[0, 0, 0])
+print(test)
+#  a = pressure_calculator(number_of_layer=1, h=[10], gama=[120], phi=[34], theory="Rankine", state="active",
+#                         water=["No"], unit_system="us", beta=[0])
+# b = pressure_calculator(number_of_layer=1, h=[23], gama=[125], phi=[36], theory="Coulomb", state="active",
+#                         water=["No"], unit_system="us", beta=[0], omega=[0], delta=[24])
+# d = pressure_calculator(number_of_layer=1, h=[23], gama=[125], phi=[36], theory="Coulomb", state="passive",
+#                         water=["No"], unit_system="us", beta=[-32], omega=[0], delta=[24])
+# c = pressure_calculator(number_of_layer=2, h=[10, 23], gama=[120, 125], phi=[34, 36], theory="Rankine",
+#                         state="active", water=["No", "No"],
+#                         unit_system="us", beta=[0, 0], omega=[0], delta=[24])
 # print(a)
