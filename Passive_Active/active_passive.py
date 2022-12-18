@@ -40,7 +40,7 @@ def coulomb(phi, beta, delta, omega, state):
 # force function
 def force_calculator(pressure_list, depth):
     rectangle_force = pressure_list[0] * depth
-    triangle_force = (pressure_list[1] - pressure_list[0]) * depth  / 2
+    triangle_force = (pressure_list[1] - pressure_list[0]) * depth / 2
     force = [rectangle_force, triangle_force]
     # unit --> force / length
 
@@ -51,7 +51,12 @@ def force_calculator(pressure_list, depth):
 
 
 class active_passive:
-    def __init__(self, h, water):
+    def __init__(self, h, water, delta_h=0.1):
+        if delta_h > 0.1:
+            delta_h = 0.1
+        if delta_h < 0.001:
+            delta_h = 0.001
+        self.delta_h = delta_h
         self.h = h
         self.water = water
         # ATTENTION : this part should be in input file and calculate h water and water list.
@@ -72,6 +77,22 @@ class active_passive:
 
         # *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
         self.h_water = h_water
+
+        # depth list :
+        depth = []
+        depth_list = []
+        i = 0
+        for height in h:
+            if i == 0:
+                depth.append(0)
+            else:
+                depth.append(depth_list[i - 1][1])
+            depth.append(depth[0] + height)
+            depth_copy = copy.deepcopy(depth)
+            depth_list.append(depth_copy)
+            depth.clear()
+            i += 1
+        self.depth_list = depth_list
 
     def pressure_calculator(self, unit_system, number_of_layer, theory, state, gama, phi, beta, delta=None,
                             omega=None):
@@ -133,7 +154,7 @@ class active_passive:
             sigma_h.append(sigma)
 
             pressure.append(sigma_h)
-        return pressure, [[0, water_pressure]]
+        return pressure, [[0, water_pressure]], self.depth_list, self.h_water
 
     def force_final(self, pressure, type_pressure="soil"):
         # if pressure was for water user send us water word
