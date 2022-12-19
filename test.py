@@ -281,6 +281,38 @@ import decimal
 # f = open("test.html", "a")
 # f.write("helllllllooooo")
 # f.close()
-f = open("p25u44_Solution1_SurchargeLoad_Report.html", "r")
-f.read()
-print(f.name)
+# f = open("p25u44_Solution1_SurchargeLoad_Report.html", "r")
+# f.read()
+# print(f.name)
+# ___________________________ 14 dec
+# a = [i for i in range(10)]
+# print(a)
+# b = a * 10
+# print(b)
+
+# _______ 18 dec
+from sympy import symbols, substitution
+from sympy.solvers import solve
+
+#
+#
+# x = symbols("x")
+# expr = x ** 2 + 1
+# print(expr)
+# a = expr.subs(x, 2)
+# print(a)
+# # # ----
+# b = [i for i in range(10)]
+# c = b.copy()
+# print(c)
+
+# ______ 19 dec
+a = [[1, 2, 3], [4, 5, 6]]
+b = a[0]
+print(b)
+for i in a[1:]:
+    b += i
+print(b)
+# b = [4, 5, 6]
+# c = a + b
+# print(c)
