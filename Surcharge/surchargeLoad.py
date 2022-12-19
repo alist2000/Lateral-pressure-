@@ -90,6 +90,21 @@ class surcharge:
         # del depth_list[-1]
         plt.show()
 
+    # uniform
+    def uniform(self, q):
+        h = self.h
+        sigma_h = self.sigma_h
+        depth_list = self.depth_list
+        for depth in depth_list:
+            sigma_h.append(q)
+        depth_array = np.array(depth_list)
+        sigma_h_array = np.array(sigma_h)
+        lateral_pressure = q * h
+        centroid = h / 2
+        plot = plotter2(self.unit_system, h, sigma_h, depth_list, lateral_pressure, centroid)
+        sigma_h.clear()
+        return lateral_pressure, centroid, sigma_h_array, plot, self.error
+
     # point load
     def point_load(self, q, l, teta=0.):
         if self.error[0] == "No error" and q != 0:
