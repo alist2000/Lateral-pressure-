@@ -83,10 +83,7 @@ class active_passive:
         depth_list = []
         i = 0
         for height in h:
-            if i == 0:
-                depth.append(0)
-            else:
-                depth.append(depth_list[i - 1][1])
+            depth.append(0)
             depth.append(depth[0] + height)
             depth_copy = copy.deepcopy(depth)
             depth_list.append(depth_copy)
