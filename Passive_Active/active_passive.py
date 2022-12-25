@@ -72,6 +72,7 @@ class active_passive:
 
                     # calculate h of water
                     h_water += h[j]
+                break
 
             i += 1
 
