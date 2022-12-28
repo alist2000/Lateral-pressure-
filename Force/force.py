@@ -13,8 +13,5 @@ def moment_calculator(force, arm, width):
     total_moment = 0
     for layer in range(len(force)):
         for item in range(len(force[layer])):
-            print(force[layer][item])
-            print(arm[layer][item])
-            print(arm[layer][item] * force[layer][item])
             total_moment += force[layer][item] * width * arm[layer][item]
     return total_moment
