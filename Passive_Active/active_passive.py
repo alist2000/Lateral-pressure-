@@ -130,6 +130,10 @@ class active_passive:
                 Kh = K * cos(delta[number_of_coulomb])
                 k.append(Kh)
                 number_of_coulomb += 1
+            elif theory == "User Defined":
+                # here there is no K we have just EFP = gama * K. we assumed K = 1 and gama = EFP
+                K = 1
+                k.append(K)
 
             # control gama
             if water[i] == "Yes":
