@@ -146,7 +146,8 @@ class active_passive:
             else:
                 '''pressure is a list and every index is a list with two index --> 
                    index 0 is pressure in top of layer and index 1 is pressure in bottom of layer
-                   if divide this by k[i - 1] it will equal to gama h. now we can multiply it to k[i]'''
+                   if divide this by k[i - 1] it will equal to gama h. now we can multiply it to k[i]
+                   (it will work when k and gama were declared separately)'''
 
                 sigma_zero = pressure[i - 1][1] * k[i] / k[i - 1]
                 sigma_h.append(sigma_zero)
@@ -156,7 +157,7 @@ class active_passive:
             sigma_h.append(sigma)
 
             pressure.append(sigma_h)
-        return pressure, [[0, water_pressure]], self.depth_list, self.h_water
+        return pressure, [[0, water_pressure]], self.depth_list, self.h_water, k
 
     def force_final(self, pressure, type_pressure="soil"):
         # if pressure was for water user send us water word
