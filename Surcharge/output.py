@@ -32,11 +32,11 @@ def output(product_id, user_id, inputs, solution, sum_sigma_h, depth, lateral_pr
     header1 = [3, "lateral pressure"]
     if unit_system == "us":
         length_unit = "ft"
-        pressure_unit = "psf"
+        force_unit = "lb"
     else:
         length_unit = "m"
-        pressure_unit = "Pa"
-    units = [length_unit, pressure_unit]
+        force_unit = "N"
+    units = [length_unit, force_unit]
     values = []
     if len(solution[0]) + len(solution[1]) + len(solution[2]) != 1:
         # it means that we have more than one load
@@ -50,7 +50,7 @@ def output(product_id, user_id, inputs, solution, sum_sigma_h, depth, lateral_pr
     # add final solution
     values.append([round(lateral_pressure, 2), round(centroid, 2)])
 
-    header2 = ["Inputs", f"Pr ({pressure_unit})", f"Zr ({length_unit})"]
+    header2 = ["Inputs", f"Pr ({force_unit})", f"Zr ({length_unit})"]
     # values = [["load 1"], ["load 2 "]]
     file_name = []
     for i in range(len(values)):
