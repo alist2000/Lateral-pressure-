@@ -64,6 +64,7 @@ class active_passive:
         # control for water layers. if any layer has water all after that has too.
         i = 0
         h_water = 0
+        h_water_list = []
         water_pressure = 0
         for waterlayer in water:
             if waterlayer == "Yes":
@@ -76,8 +77,22 @@ class active_passive:
 
             i += 1
 
+        # create a list for water depth
+        water_number = len(water)
+        for i in range(len(water)):
+            if water[i] == "Yes":
+                water_number = i
+                break
+
+        if water_number == len(water):
+            h_water_list.append(0)
+        else:
+            for i in h[water_number:]:
+                h_water_list.append(i)
+
         # *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
         self.h_water = h_water
+        self.h_water_list = h_water_list
 
         # depth list :
         depth = []
@@ -102,9 +117,26 @@ class active_passive:
         h = self.h
         h_water = self.h_water
         water = self.water
+        h_water_list = self.h_water_list
 
         # calculate water pressure
+
+        # final pressure
         water_pressure = h_water * gama_w[unit_system]
+        # pressure according to water list
+        water_pressure_list = []
+        water_pressure_list_final = []
+        for h_w_i in range(len(h_water_list)):
+            if h_w_i == 0:
+                water_zero = 0
+                water_pressure_list.append(0)
+            else:
+                water_zero = water_pressure_list_final[h_w_i - 1][-1]
+                water_pressure_list.append(water_zero)
+            water_pressure_list.append(h_water_list[h_w_i] * gama_w[unit_system] + water_zero)
+            water_pressure_list_copy = copy.deepcopy(water_pressure_list)
+            water_pressure_list.clear()
+            water_pressure_list_final.append(water_pressure_list_copy)
 
         # state = "active" or "passive"
         total_h = sum(h)
@@ -157,7 +189,7 @@ class active_passive:
             sigma_h.append(sigma)
 
             pressure.append(sigma_h)
-        return pressure, [[0, water_pressure]], self.depth_list, self.h_water, k
+        return pressure, [[0, water_pressure]], self.depth_list, self.h_water, k, water_pressure_list_final
 
     def force_final(self, pressure, type_pressure="soil"):
         # if pressure was for water user send us water word
