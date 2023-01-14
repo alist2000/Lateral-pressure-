@@ -8,6 +8,8 @@ sum of all surcharges.this function used for soldier pile
 
 
 def result_surcharge(surchargeInstance, load_type, q, l1, l2, teta, k=1):
+    error = ["No Error!"]
+
     """load type, q, l1, l2, teta are list"""
     depth_list = surchargeInstance.depth_list
     depth_array = np.array(depth_list)
@@ -94,6 +96,17 @@ def result_surcharge(surchargeInstance, load_type, q, l1, l2, teta, k=1):
     solution.append(solution_ll)
     solution.append(solution_sl)
     solution.append(solution_un)
+
+    # Check for errors
+    for load_types in solution:
+        for load in load_types:
+            for status in load[3]:
+                if status != "No error":
+                    return "", "", "", load[3]
+    # check error --> if there is no load problem can not solved!
+    if all(i == 0 for i in q):
+        return "", "", "", ["You must define at least one load!"]
+
     for i in solution:
         try:
             sum_sigma_h = np.array([0. for i in range(len(i[0][2]))])
@@ -107,4 +120,4 @@ def result_surcharge(surchargeInstance, load_type, q, l1, l2, teta, k=1):
     lateral_pressure = spi.simpson(sum_sigma_h, depth_array)
     centroid = spi.simpson(sum_sigma_h * depth_array, depth_array) / lateral_pressure
 
-    return lateral_pressure, centroid, sum_sigma_h
+    return lateral_pressure, centroid, sum_sigma_h, error
