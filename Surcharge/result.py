@@ -102,10 +102,10 @@ def result_surcharge(surchargeInstance, load_type, q, l1, l2, teta, k=1):
         for load in load_types:
             for status in load[3]:
                 if status != "No error":
-                    return "", "", "", load[3]
+                    return 0, 0, 0, load[3]
     # check error --> if there is no load problem can not solved!
     if all(i == 0 for i in q):
-        return "", "", "", ["You must define at least one load!"]
+        return 0, 0, 0, ["You must define at least one load!"]
 
     for i in solution:
         try:
