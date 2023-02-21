@@ -6,7 +6,7 @@ import copy
 import numpy as np
 from math import sin, cos, tan, atan, acos, asin, sqrt
 
-gama_w = {"metric": 9.81, "us": 62.4}
+gama_w = {"metric": 9810, "us": 62.4}
 
 
 def rankine(phi, beta, state):
