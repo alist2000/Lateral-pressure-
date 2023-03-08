@@ -1,5 +1,5 @@
-from input import input_values
-from surchargeLoad import surcharge
+from .input import input_values
+from .surchargeLoad import surcharge
 import scipy.integrate as spi
 
 import numpy as np
