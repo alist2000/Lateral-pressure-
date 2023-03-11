@@ -1,0 +1,168 @@
+<html>
+  <head>
+    <title>Output Summary</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <style type="text/css">
+      * {
+        font-size: 10px;
+      }
+      body {
+        font: 10px Arial, Helvetica, sans-serif;
+        line-height: 1;
+      }
+      @media print {
+        .pagebreak {
+          page-break-before: always;
+        }
+      }
+      @page {
+        size: letter;
+        margin: 1.5cm;
+        @bottom-right {
+          content: "Page " counter(page) " of " counter(pages);
+        }
+      }
+      .custom-page-start {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+      h1 {
+        color: #2f4f6e;
+        font-size: 15px;
+      }
+      h2 {
+        background: #96b9d0;
+        font-size: 13px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-left: 3px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        margin-left: -1px;
+        margin-right: -1px;
+      }
+      h3 {
+        background: #84c1ff;
+        font-size: 13px;
+        font-size: 10px;
+        margin-bottom: -1px;
+        margin-top: -1px;
+        margin-left: -1px;
+        margin-right: -1px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: 8px;
+      }
+      t1 {
+        display: block;
+        font-size: 15px;
+        font-style: italic;
+        padding-left: 3px;
+      }
+      t1b {
+        font-size: 15px;
+        font-style: italic;
+        font-weight: bold;
+      }
+      t2 {
+        font-size: 15px;
+      }
+      t2b {
+        font-size: 15px;
+        font-weight: bold;
+      }
+      p {
+        font-size: 10px;
+      }
+      td {
+        vertical-align: top;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="custom-page-start">
+      <hr />
+      <h1 style="font-size: 15px">
+        lateral pressure calculator - Output Summary
+      </h1>
+      <table border="0" style="border-collapse: collapse; width: 100%">
+        <tbody>
+          <tr>
+            <td style="width: 100%; font-size: 15px">
+              <h2>Final Solution Alternatives</h2>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+      <table
+        border="0"
+        style="border-collapse: collapse; width: 100%; background: #dfe3e6"
+      >
+        <tbody>
+          <tr>
+            <td
+              style="
+                width: 100%;
+                padding: 5px;
+                border: 5px solid white;
+                background-color: #bfd6f6;
+              "
+            >
+              <t2b> Error! </t2b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table
+        border="1"
+        bordercolor="#C0C0C0"
+        style="border-collapse: collapse; width: 100%; background: #dfe3e6"
+      >
+        <tbody
+          style="
+            width: 100%;
+            padding: 5px;
+            border: 5px solid white;
+            background-color: #e7eff6;
+          "
+        >
+          <tr>
+            <td style="width: 10%; text-align: center">
+              <t2> Number of errors </t2>
+            </td>
+
+            <td style="width: 10%; text-align: center" colspan="2">
+              <t2> Description </t2>
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 10%; text-align: center"><t2> 2 </t2></td>
+
+            <td style="width: 10%; text-align: center">
+              <t2> Delta h can't be larger than h! Change your input! </t2>
+            </td>
+
+            <td style="width: 10%; text-align: center">
+              <t2> h can't be <= 0! </t2>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table border="0" style="border-collapse: collapse; width: 100%">
+        <tbody>
+          <tr>
+            <td style="width: 100%"><t1b></t1b></td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+    </div>
+  </body>
+</html>

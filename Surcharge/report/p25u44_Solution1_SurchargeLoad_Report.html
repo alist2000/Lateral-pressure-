@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>Report Sample</title>
+  <script type="text/javascript"
+  src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+  </script>
+  <script type="text/javascript" id="MathJax-script"
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style type="text/css">
+                * {font-size: 10px; }
+                body {
+                        font: 10px Arial, Helvetica, sans-serif;
+                        line-height: 1.0;
+                }
+                @media print {
+                        .pagebreak { page-break-before: always; }
+                }
+                @page {
+                        size: letter;
+                        margin: 1.5cm;
+                        @bottom-right {
+                                content: "Page " counter(page) " of " counter(pages);
+                        }
+                        @top-left {
+                                color: rgba(0,0,0,0);
+                                content: "This text will not be shown";
+                                background-image: url('CIV_Logo_Header.svg');
+                                background-size: contain;
+                                background-repeat: no-repeat;
+                        }
+                        @top-right {
+                                content: "CiViSion Version 0.0.1";
+                        }
+                }
+                .custom-page-start {
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+                }
+                h1 {color: #30508A; font-size: 15px;}
+                h2 {
+                        background: #CEE5F2; font-size: 13px;
+                        padding-top: 3px;
+                        padding-bottom: 3px;
+                        padding-left: 3px;
+                        margin-bottom: 5px; margin-top: 5px;
+                        margin-left: -1px; margin-right: -1px;
+                }
+                h3 {
+                        font-size: 10px; 
+                        margin-bottom: -1px; margin-top: -1px;
+                        margin-left: -1px; margin-right: -1px;
+                        padding-top: 3px;
+                        padding-bottom: 3px;
+                        padding-left: 3px;
+                }
+                t1 {display: block; font-size: 10px; font-style: italic; padding-left: 3px;}
+                t1b {font-size: 10px; font-style: italic; font-weight: bold; padding-left: 3px;}
+                t2 {font-size: 10px;}
+                t2p {font-size: 10px; color: green;}
+                t2f {font-size: 10px; color: red;}
+                t2i {font-size: 10px; text-indent: 50px}
+                tc2 {font-size: 10px; text-align: center;}
+                p {font-size: 10px;}
+  </style>
+  <style type="text/css" title="Amaya theme">
+/* Modern style for Amaya Editor Lite */
+
+/* default rules for the whole document */
+body {
+    font-size: 12pt;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    color: black;
+    background-color: white;
+    line-height: 1.2em;
+    margin-left: 4em;
+    margin-right: 2em;
+   }
+
+/* paragraphs */
+p  {
+    padding: 0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: left;
+   }
+
+/* headings */
+h1 {
+    font-size: 180%;
+    font-weight: bold;
+    font-style: normal;
+    font-variant: small-caps;
+    text-align: left;
+    padding: 0;
+    margin-top: 1.7em;
+    margin-bottom: 1.7em;
+   }
+h2 {
+    font-size: 150%;
+    font-weight: bold;
+    font-style: normal;
+    padding: 0;
+    margin-top: 1.5em;
+    margin-bottom: 1.1em;
+   }
+h3 {
+    font-size: 130%;
+    font-weight: bold;
+    font-style: normal;
+    padding: 0;
+    margin-top: 1.3em;
+    margin-bottom: 1.1em;
+   }
+h4 {
+    font-size: 110%;
+    font-weight: bold;
+    font-style: normal;
+    padding: 0;
+    margin-top: 1.1em;
+    margin-bottom: 1.1em;
+   }
+h5 {
+    font-size: 100%;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+   }
+h6 {
+    font-size: 100%;
+    font-weight: normal;
+    font-style: italic;
+    padding: 0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+   }
+
+/* divisions */
+div {
+    padding: 0;
+    margin-top: 0em;
+    margin-bottom: 0em;
+   }
+
+/* lists */
+ul, ol {
+    padding: 0 0 0 3em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+   }
+ul ul, ol ol, ul ol, ol ul {
+    margin-top: 1em;
+    margin-bottom: 1em;
+   }
+li {
+    padding: 0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: left;
+   }
+li p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+   }
+dl {
+    padding: 0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 1em;
+   }
+dl dl {
+    margin-top: 0em;
+    margin-bottom: 0em;
+   }
+dt {
+    padding: 0;
+    font-weight: bold;
+    margin-top: .3em;
+    margin-bottom: .3em;
+   }
+dd {
+    padding: 0;
+    margin-top: .3em;
+    margin-left: 3em;
+    margin-bottom: .3em;
+   }
+dl p {
+    margin-top: .3em;
+    margin-bottom: .3em;
+   }
+
+/* inline */
+strong {
+    font-weight: bold;
+   }
+em {
+    font-style: italic;
+   }
+code {
+    font-family: Courier New, Courier, monospace;
+   }
+ins {
+    background-color: yellow;
+    text-decoration: underline;
+   }
+del {
+    text-decoration: line-through;
+   }
+
+/* anchors */
+a[href] {
+    color: blue;
+    text-decoration: underline;
+   }
+
+/* end */
+  </style>
+</head>
+
+<body>
+
+<div class="custom-page-start">
+<h1>Lateral Pressure - Report</h1>
+
+<table border="0" style="border-collapse: collapse; width: 100%;">
+  <tbody>
+    <tr>
+      <td style="width: 100%;"><h2>1 Project Info</h2>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table border="0" style="border-collapse: collapse; width: 100%;">
+  <tbody>
+    <tr>
+      <td style="width: 25%;"><t1>Project Title:</t1></td>
+      <td style="width: 25%;"><t2>1</t2></td>
+      <td style="width: 25%;"><t1>Designed By:</t1></td>
+      <td style="width: 25%;"><t2>3</t2></td>
+    </tr>
+    <tr>
+      <td style="width: 25%;"><t1>Job Title:</t1></td>
+      <td style="width: 25%;"><t2>1</t2></td>
+      <td style="width: 25%;"><t1>Checked By:</t1></td>
+      <td style="width: 25%;"><t2>2</t2></td>
+    </tr>
+    <tr>
+      <td style="width: 25%;"><t1>Company:</t1></td>
+      <td style="width: 25%;"><t2>1</t2></td>
+      <td style="width: 25%;"><t1>Analysis Date:</t1></td>
+      <td style="width: 25%;"><t2>2022/12/05</t2></td>
+    </tr>
+    <tr>
+      <td style="width: 25%;"><t1>Comments:</t1></td>
+      <td colspan="3" style="width: 25%;"><t2>-</t2></td>
+    </tr>
+  </tbody>
+</table>
+
+  <table border="0" style="border-collapse: collapse; width: 100%;">
+  <tbody>
+    <tr>
+      <td style="width: 100%;"><h2>2 Input Parameters</h2>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table border="0" style="border-collapse: collapse; width: 100%;">
+  <tbody>
+    <tr>
+      <td style="width: 25%;"><t1>Height:</t1></td>
+      <td style="width: 25%;"><t2>10</t2></td>
+      <td style="width: 25%;"><t1>&#x394;h:</t1></td>
+      <td style="width: 25%;"><t2>0.1</t2></td>
+    </tr>
+    <tr>
+      <td style="width: 25%;"><t1>Load Type:</t1></td>
+      <td style="width: 25%;"><t2>Point Load</t2></td>
+      <td style="width: 25%;"><t1>q:</t1></td>
+      <td style="width: 25%;"><t2>100.0</t2></td>
+    </tr>
+    <tr>
+      <td style="width: 25%;"><t1>L:</t1></td>
+      <td style="width: 25%;"><t2>1</t2></td>
+      <td style="width: 25%;"><t1>&#x3b8;:</t1></td>
+      <td style="width: 25%;"><t2>1</t2></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="pagebreak">
+</div>
+
+<div class="custom-page-start">
+  <table border="0" style="border-collapse: collapse; width: 100%;">
+  <tbody>
+    <tr>
+      <td style="width: 100%;"><h2>3 Output </h2>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table border="0" style="border-collapse: collapse; width: 100%;">
+  <tbody>
+    <tr>
+      <td style="width: 15%;"><t1>P<sub>r</sub> :</t1></td>
+      <td style="width: 15%;"><t2>7.87</t2></td>
+      <td style="width: 15%;"><t1>Z<sub>r</sub> :</t1></td>
+      <td style="width: 15%;"><t2>4.13</t2></td>
+      <td style="width: 40%;"><t2> for download all values <a
+                href="http://civision.balafan.com:8010/report/Surchage/excel/excel1"
+                target="_blank"
+                >
+                  Click here!
+              </a></t2></td>
+    </tr>
+  </tbody>
+
+    <div class="custom-page-start">
+            <table border="0" style="border-collapse: collapse; width: 100%;">
+                <tbody>
+                <tr>
+                    <td style="width: 100%;"><h2>4 Plot </h2>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table border="0" style="border-collapse: collapse; width: 100%;">
+                <tbody>
+                <td style="width: 40%;"><t2> <a
+                href=../plot/output1.png
+                target="_blank"
+                >
+                  Click here!
+              </a></t2></td>
+                </tbody>
+                </tbody>
+            </table>
+
+        </div>
+</body>
+
+
+<table border="0"
+  </tbody>
+</table>
+</div>
+</body>
+</html>

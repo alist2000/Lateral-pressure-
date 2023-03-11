@@ -1,5 +1,5 @@
 import numpy as np
-from math import *
+# from math import *
 from scipy import integrate
 import decimal
 
@@ -307,12 +307,100 @@ from sympy.solvers import solve
 # print(c)
 
 # ______ 19 dec
-a = [[1, 2, 3], [4, 5, 6]]
-b = a[0]
-print(b)
-for i in a[1:]:
-    b += i
-print(b)
-# b = [4, 5, 6]
-# c = a + b
-# print(c)
+# a = [[1, 2, 3], [4, 5, 6]]
+# b = a[0]
+# print(b)
+# for i in a[1:]:
+#     b += i
+# print(b)
+# # b = [4, 5, 6]
+# # c = a + b
+# # print(c)
+# ____________________25 dec
+# a = [i for i in range(0, 10)]
+# for i in a[:-1]:
+#     print(i)
+#
+# print(sum(a[0:1]))
+#
+# a.insert(1, 10.5)
+# print(a)
+# b = [10, 11]
+# print(a + b)
+# # a - [a[0]] --> error; so:
+# # del a[a.index(a[0])]
+# # del a[0]
+# # print(a)
+
+
+# print(a[::-1])
+
+# _______________ 2 jan
+# a = [1, 2, 3, 3, 0, 5]
+# import numpy as np
+#
+# b = np.unique(a)
+# print(b)
+# print(type(b))
+# _____ 4 jan
+# a = {"key1": ["value1"], "key2": ["value2"], "key3": ["value3"], "key4": ["value4"]}
+# value1, value2, value3, value4 = a.values()  # =  [value1, value2, value3, value4] = a.values()
+
+#  __________________________ 14 JAN
+# D = symbols("D")
+# eq = 34.1610525321564*(D**3) - 161.471251169672*(D**2) - 16033.7776041867*D - 69909.4693128132
+# d = solve(eq, D)
+# print(d)
+# print(type(d[-1]))
+# # *** IGNORE SMALL PART OF COMPLEX NUMBER ***
+# f = d[-1].evalf(chop=True)
+# # a ,b = f.args
+# # print(type(a))
+# # print(type(b))
+#
+# eq2 = -D**2 + 10*D - 160
+# d1 = solve(eq2, D)
+# print(d1)
+# print(type(d1[-1]))
+# f1 = d1[-1].evalf(chop=True)
+# print(f1.args)
+# a1 ,b1 = f1.args
+# print(type(a1))
+# print(type(b1))
+# c = 3.9*(D/3 + 2/3)*(D + 2)*(62.4*D + 124.8)
+# eq2 = 115.281052532156*D**3 - 1109.02526753058*D**2 - 23915.3501515719*D - 114846.378110495
+# d2 = solve(eq2, D)
+# print(d2)
+# print(type(d2[-1]))
+# f2 = d2[-1].evalf(chop=True)
+# f21 = d2[0].evalf(chop=True)
+# a2 ,b2 = f2.args
+# print(type(a2))
+# print(type(b2))
+
+# for i in range(10):
+#     print(i)
+#     if i != 5:
+#         continue
+#     print("done")
+# print("end")
+
+# a = [2, 2, 2, 2, 3]
+# if all(i == 2 for i in a):
+#     print("pass")
+#
+# else:
+#     print("fail!")
+
+# a = 'W27X84'
+# b = a.find("X")
+# print(b)
+# section = a[1:b]
+
+# 25 jan
+# a = [i for i in range(10)]
+# print(a[5::-1])
+a = [2, 4, 5, 6, 67]
+b = [10]
+c = a + b
+print(c)
