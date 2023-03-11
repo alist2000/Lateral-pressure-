@@ -1,7 +1,7 @@
 # *** NOT FINISHED YET ***
 # in this file I will use inputs to calculate active and passive pressure.
 
-from input import input_values
+from .input import input_values
 
 # def main_active_passive(input_values):
 #     product_id = input_values.get("product_id")
@@ -27,7 +27,7 @@ from input import input_values
 
 
 from sympy import symbols, substitution
-from active_passive import active_passive
+from .active_passive import active_passive
 
 x = symbols("x")
 h = [10, x]
