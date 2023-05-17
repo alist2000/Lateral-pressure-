@@ -10,9 +10,9 @@ gama_w = {"metric": 9810, "us": 62.4}
 
 
 def rankine(phi, beta, state):
+    phi = np.pi * phi / 180
+    beta = np.pi * beta / 180
     if state == "active":
-        phi = np.pi * phi / 180
-        beta = np.pi * beta / 180
         Ka = cos(beta) * ((cos(beta) - sqrt(cos(beta) ** 2 - cos(phi) ** 2)) / (
                 cos(beta) + sqrt(cos(beta) ** 2 - cos(phi) ** 2)))
         return Ka
