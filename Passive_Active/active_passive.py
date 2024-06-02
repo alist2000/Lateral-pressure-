@@ -186,6 +186,10 @@ class active_passive:
 
             # append index = 1 ( second value )
             sigma = sigma_h[0] + k[i] * h[i] * gama[i]
+            try:
+                sigma = float(sigma)
+            except:
+                pass
             sigma_h.append(sigma)
 
             pressure.append(sigma_h)

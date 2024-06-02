@@ -1,8 +1,8 @@
-from .input import input_values
-from .surchargeLoad import surcharge
-from .plot import plotter2
-from .output import output, output_noSolution
-from .report import report, create_html_report, choose_and_create_pdf, create_feather
+from input import input_values
+from surchargeLoad import surcharge
+from plot import plotter2
+from output import output, output_noSolution
+from report import report, create_html_report, choose_and_create_pdf, create_feather
 
 import scipy.integrate as spi
 import numpy as np
