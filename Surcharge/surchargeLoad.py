@@ -3,7 +3,7 @@ import scipy.integrate as spi
 import matplotlib.pyplot as plt
 from math import *
 
-from .plot import plotter2
+from plot import plotter2
 
 
 class surcharge:
