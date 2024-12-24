@@ -125,7 +125,7 @@ def report(project_type, product_id, user_id, inputs, output):
 A HTML page is generated from a template and rendered as a local PDF file.
 """
 
-from weasyprint import HTML
+# from weasyprint import HTML
 from jinja2 import Environment, FileSystemLoader
 
 
