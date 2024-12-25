@@ -72,14 +72,25 @@ class UniformSurcharge(Surcharge):
     The lateral pressure is constant = q.
     """
 
-    def __init__(self, discretization: DepthDiscretization, q: float):
+    def __init__(self, discretization: DepthDiscretization, q: float, effective_depth):
         super().__init__(discretization)
         self.q = abs(q)  # in psf or consistent unit
-
+        if effective_depth == 0:
+            self.effective_depth = max(self.discretization.depth)
+        else:
+            self.effective_depth = abs(effective_depth)
     def get_pressure_distribution(self) -> np.ndarray:
         depth_array = self.discretization.depth
         # Pressure is constant with depth
-        return np.full_like(depth_array, self.q, dtype=float)
+        sigma_h = []
+
+        for z in depth_array:
+            if z > self.effective_depth:
+                sigma_h.append(0)
+            else:
+                sigma_h.append(self.q)
+
+        return np.array(sigma_h, dtype=float)
 
 
 class PointSurcharge(Surcharge):
@@ -90,12 +101,16 @@ class PointSurcharge(Surcharge):
     Uses formulas from (like your original code) to compute sigma_h at each depth.
     """
 
-    def __init__(self, discretization: DepthDiscretization, q: float, l: float, theta_deg: float = 0.0):
+    def __init__(self, discretization: DepthDiscretization, q: float, l: float, theta_deg: float = 0.0,
+                 effective_depth: float = 0.0):
         super().__init__(discretization)
         self.q = abs(q)
         self.l = abs(l)
         self.theta = math.radians(theta_deg)  # convert to radians
-
+        if effective_depth == 0:
+            self.effective_depth = max(self.discretization.depth)
+        else:
+            self.effective_depth = abs(effective_depth)
     def get_pressure_distribution(self) -> np.ndarray:
         H = self.discretization.H
         depth = self.discretization.depth  # e.g. array from 0..H
@@ -104,7 +119,7 @@ class PointSurcharge(Surcharge):
         sigma_h = []
         m = self.l / H
         for i, z in enumerate(depth):
-            if z == 0.0:
+            if z == 0.0 or z > self.effective_depth:
                 # at surface (z=0), no pressure
                 sigma_h.append(0.0)
             else:
@@ -125,11 +140,14 @@ class LineSurcharge(Surcharge):
     Line Surcharge of magnitude q at some distance l from the wall (like your code).
     """
 
-    def __init__(self, discretization: DepthDiscretization, q: float, l: float):
+    def __init__(self, discretization: DepthDiscretization, q: float, l: float, effective_depth: float = 0.0):
         super().__init__(discretization)
         self.q = abs(q)
         self.l = abs(l)
-
+        if effective_depth == 0:
+            self.effective_depth = max(self.discretization.depth)
+        else:
+            self.effective_depth = abs(effective_depth)
     def get_pressure_distribution(self) -> np.ndarray:
         H = self.discretization.H
         depth = self.discretization.depth
@@ -138,7 +156,7 @@ class LineSurcharge(Surcharge):
 
         sigma_h = []
         for i, z in enumerate(depth):
-            if z == 0.0:
+            if z == 0.0 or z > self.effective_depth:
                 sigma_h.append(0.0)
             else:
                 if m <= 0.4:
@@ -158,9 +176,14 @@ class StripSurcharge(Surcharge):
     If l2 < l1 is passed, automatically swap them.
     """
 
-    def __init__(self, discretization: DepthDiscretization, q: float, l1: float, l2: float):
+    def __init__(self, discretization: DepthDiscretization, q: float, l1: float, l2: float,
+                 effective_depth: float = 0.0):
         super().__init__(discretization)
         self.q = abs(q)
+        if effective_depth == 0:
+            self.effective_depth = max(self.discretization.depth)
+        else:
+            self.effective_depth = abs(effective_depth)
 
         if l1 > l2:
             l1, l2 = l2, l1
@@ -178,7 +201,7 @@ class StripSurcharge(Surcharge):
 
         sigma_h = []
         for z in depth:
-            if z == 0:
+            if z == 0 or z > self.effective_depth:
                 sigma_h.append(0.0)
             else:
                 alpha = math.atan((self.l1 + self.a / 2.0) / z)
@@ -300,7 +323,7 @@ def create_soil_pressure_plot(z, pressure, z_r, p_r):
     # Label "Zr" near that point
     fig.add_annotation(
         x=0.8 * max(pressure),
-        y=z_r/2,
+        y=z_r / 2,
         text=f"Zr = {round(z_r, 1)}",
         showarrow=False,
         font=dict(color="red", size=12)
